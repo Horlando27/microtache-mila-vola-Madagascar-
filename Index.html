@@ -1,0 +1,3271 @@
+
+<!DOCTYPE html>
+<html lang="mg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Microtâche Mila Vola</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --primary-light: #edf2ff;
+      --secondary: #3f37c9;
+      --success: #4cc9f0;
+      --success-dark: #3ab4d8;
+      --warning: #f72585;
+      --danger: #e63946;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray-100: #f8f9fa;
+      --gray-200: #e9ecef;
+      --gray-300: #dee2e6;
+      --gray-400: #ced4da;
+      --gray-500: #adb5bd;
+      --gray-600: #6c757d;
+      --gray-700: #495057;
+      --gray-800: #343a40;
+      --gray-900: #212529;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --box-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.12);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --whatsapp: #25D366;
+      --whatsapp-dark: #128C7E;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f8f9fc, #eef2f9);
+      color: var(--gray-800);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+    }
+    
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      color: white;
+      padding: 1.5rem 0;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .app-title {
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      font-size: 1.8rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    .app-subtitle {
+      font-weight: 400;
+      opacity: 0.9;
+      font-size: 1rem;
+      max-width: 600px;
+    }
+    
+    .nav-pills {
+      background: white;
+      border-radius: 50px;
+      padding: 0.5rem;
+      box-shadow: var(--box-shadow);
+      margin-bottom: 2rem;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--gray-200);
+    }
+    
+    .nav-pills .nav-link {
+      border-radius: 50px;
+      padding: 0.65rem 1.5rem;
+      font-weight: 500;
+      color: var(--gray-600);
+      transition: var(--transition);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .nav-pills .nav-link.active, 
+    .nav-pills .nav-link:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(67, 97, 238, 0.3);
+    }
+    
+    .section-card {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 1.75rem;
+      margin-bottom: 1.75rem;
+      transition: var(--transition);
+      border: 1px solid var(--gray-200);
+    }
+    
+    .section-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--box-shadow-hover);
+    }
+    
+    .section-title {
+      color: var(--secondary);
+      font-weight: 700;
+      margin-bottom: 1.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid var(--primary);
+      display: inline-block;
+      position: relative;
+    }
+    
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 50px;
+      height: 2px;
+      background: var(--primary);
+    }
+    
+    .balance-card {
+      text-align: center;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 1rem;
+      box-shadow: var(--box-shadow);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+      border: none;
+    }
+    
+    .balance-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--box-shadow-hover);
+    }
+    
+    .gain-card {
+      background: linear-gradient(135deg, var(--success), #3a86ff);
+      color: white;
+    }
+    
+    .deposit-card {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+    }
+    
+    .balance-label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .balance-amount {
+      font-size: 1.85rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+    
+    .btn-action {
+      padding: 0.85rem 1.75rem;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-action::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 20px;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(25deg);
+      transition: all 0.6s;
+    }
+    
+    .btn-action:hover::after {
+      left: 120%;
+    }
+    
+    .btn-action i {
+      margin-right: 8px;
+    }
+    
+    .btn-deposit {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-deposit:hover {
+      background: var(--primary-dark);
+      color: white;
+    }
+    
+    .btn-withdraw {
+      background: var(--warning);
+      color: white;
+    }
+    
+    .btn-withdraw:hover {
+      background: #e11d74;
+      color: white;
+    }
+    
+    .btn-action:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .task-card {
+      margin-bottom: 1.25rem;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      border: none;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      border: 1px solid var(--gray-200);
+    }
+    
+    .task-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--box-shadow-hover);
+    }
+    
+    .task-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--warning);
+      color: white;
+      font-weight: 600;
+      padding: 0.35rem 1rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      box-shadow: 0 4px 8px rgba(247, 37, 133, 0.25);
+    }
+    
+    .admin-card {
+      background: #fff;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 1.75rem;
+      margin-bottom: 1.75rem;
+      border: 1px solid var(--gray-200);
+    }
+    
+    .admin-header {
+      color: var(--secondary);
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .request-card {
+      background: #f8f9fc;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--primary);
+      transition: var(--transition);
+    }
+    
+    .request-card:hover {
+      background: white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .request-card h6 {
+      font-weight: 600;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .request-card pre {
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid var(--gray-200);
+      margin-top: 0.75rem;
+    }
+    
+    .modal-content {
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      border: none;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--gray-200);
+    }
+    
+    .modal-header {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      padding: 1.25rem 1.5rem;
+    }
+    
+    .modal-title {
+      font-weight: 600;
+    }
+    
+    .referral-code {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 0.85rem 1.75rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.25rem;
+      display: inline-block;
+      margin-top: 0.5rem;
+      border: 1px dashed var(--primary);
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    .stats-container {
+      display: flex;
+      justify-content: space-around;
+      margin: 1.75rem 0;
+      gap: 1.5rem;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 1.25rem;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      flex: 1;
+      transition: var(--transition);
+    }
+    
+    .stat-item:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--box-shadow-hover);
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      font-family: 'Montserrat', sans-serif;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+    }
+    
+    .form-control, .form-select {
+      padding: 0.85rem 1.25rem;
+      border-radius: 10px;
+      border: 1px solid var(--gray-300);
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+    
+    .form-control:focus, .form-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.2);
+    }
+    
+    .form-label {
+      font-weight: 500;
+      color: var(--gray-700);
+      margin-bottom: 0.5rem;
+    }
+    
+    footer {
+      background: var(--dark);
+      color: white;
+      text-align: center;
+      padding: 1.75rem 0;
+      margin-top: 3rem;
+      border-radius: 20px 20px 0 0;
+    }
+    
+    .loading-spinner {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-left: 10px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .firebase-status {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+    
+    .status-connected {
+      background-color: var(--success);
+      color: white;
+    }
+    
+    .status-disconnected {
+      background-color: var(--danger);
+      color: white;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 2.5rem;
+      color: var(--gray-600);
+      border: 2px dashed var(--gray-300);
+      border-radius: var(--border-radius);
+      background: var(--gray-100);
+    }
+    
+    .empty-state i {
+      font-size: 3.5rem;
+      margin-bottom: 1.25rem;
+      color: var(--gray-400);
+      opacity: 0.7;
+    }
+    
+    .login-container {
+      max-width: 480px;
+      margin: 100px auto;
+      padding: 2.5rem;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow-hover);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--gray-200);
+    }
+    
+    .login-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+    }
+    
+    .login-logo {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    
+    .login-logo i {
+      font-size: 3.5rem;
+      color: var(--primary);
+      margin-bottom: 1.25rem;
+      background: var(--primary-light);
+      width: 90px;
+      height: 90px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    
+    .login-logo h2 {
+      color: var(--secondary);
+      font-weight: 700;
+    }
+    
+    .admin-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 1.25rem;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      border: 1px solid var(--gray-200);
+    }
+    
+    .admin-table th {
+      background: var(--primary);
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+    
+    .admin-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    
+    .admin-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .admin-table tr:nth-child(even) {
+      background-color: var(--gray-100);
+    }
+    
+    .admin-table tr:hover {
+      background-color: var(--primary-light);
+    }
+    
+    .admin-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .btn-sm {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.875rem;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+    
+    .logout-btn {
+      background: var(--danger);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 0.65rem 1.25rem;
+      font-weight: 600;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .logout-btn:hover {
+      background: #d0343f;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(230, 57, 70, 0.3);
+    }
+    
+    .completed-task {
+      position: relative;
+      opacity: 0.85;
+    }
+    
+    .completed-task:after {
+      content: "Asa vita";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-10deg);
+      background: var(--success);
+      color: white;
+      font-weight: bold;
+      padding: 0.5rem 1.25rem;
+      border-radius: 50px;
+      z-index: 10;
+      font-size: 1.1rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .referral-section {
+      background: linear-gradient(135deg, #f8f9fc, #eef2f9);
+      padding: 1.75rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 1.75rem;
+      border: 1px solid var(--gray-200);
+    }
+    
+    .referral-link {
+      display: flex;
+      gap: 10px;
+      margin-top: 1.25rem;
+    }
+    
+    .referral-link input {
+      flex: 1;
+      border-radius: 10px 0 0 10px;
+      background: white;
+    }
+    
+    .referral-link button {
+      border-radius: 0 10px 10px 0;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0 1.25rem;
+      transition: var(--transition);
+    }
+    
+    .referral-link button:hover {
+      background: var(--primary-dark);
+    }
+    
+    .card-header-gradient {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      padding: 1.25rem 1.75rem;
+      border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+    }
+    
+    .user-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-right: 12px;
+    }
+    
+    .social-icon {
+      font-size: 1.5rem;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    
+    .facebook { color: #3b5998; }
+    .twitter { color: #1da1f2; }
+    .instagram { color: #e1306c; }
+    .telegram { color: #0088cc; }
+    .website { color: var(--primary); }
+    .whatsapp { color: var(--whatsapp); }
+    
+    .task-type-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .social-task {
+      border-left: 4px solid #3b5998;
+    }
+    
+    .website-task {
+      border-left: 4px solid var(--primary);
+    }
+    
+    .whatsapp-btn {
+      background: var(--whatsapp) !important;
+      color: white !important;
+      border-radius: 50px;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      margin-top: 15px;
+      width: 100%;
+      justify-content: center;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    }
+    
+    .whatsapp-btn:hover {
+      background: var(--whatsapp-dark) !important;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    }
+    
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: var(--border-radius);
+      background: var(--success);
+      color: white;
+      box-shadow: var(--box-shadow);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn 0.5s, fadeOut 0.5s 2.5s forwards;
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+    
+    .proof-container {
+      background: var(--primary-light);
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      margin-top: 1rem;
+      border: 1px dashed var(--primary);
+    }
+    
+    .proof-title {
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .whatsapp-section {
+      background: linear-gradient(135deg, var(--whatsapp), var(--whatsapp-dark));
+      color: white;
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .whatsapp-input-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+    
+    .whatsapp-input-group input {
+      flex: 1;
+      border-radius: 10px;
+      border: none;
+      padding: 0.85rem 1.25rem;
+      font-size: 1rem;
+    }
+    
+    .whatsapp-input-group button {
+      border-radius: 10px;
+      background: white;
+      color: var(--whatsapp);
+      border: none;
+      padding: 0 1.5rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    
+    .whatsapp-input-group button:hover {
+      background: var(--gray-100);
+      transform: translateY(-2px);
+    }
+    
+    .admin-task-id {
+      background: var(--primary-light);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    
+    .admin-task-id:hover {
+      background: var(--primary);
+      color: white;
+    }
+    
+    /* Styles pour la section historique */
+    .history-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 1.25rem;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      border: 1px solid var(--gray-200);
+    }
+    
+    .history-table th {
+      background: var(--primary);
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+    
+    .history-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    
+    .history-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .history-table tr:nth-child(even) {
+      background-color: var(--gray-100);
+    }
+    
+    .history-table tr:hover {
+      background-color: var(--primary-light);
+    }
+    
+    .history-badge {
+      padding: 0.35rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    
+    .badge-deposit {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    
+    .badge-withdraw {
+      background: #fce4ec;
+      color: #e91e63;
+    }
+    
+    .badge-proof {
+      background: #e8f5e9;
+      color: #4caf50;
+    }
+    
+    .badge-pending {
+      background: #fff8e1;
+      color: #ffa000;
+    }
+    
+    .badge-confirmed {
+      background: #e8f5e9;
+      color: #4caf50;
+    }
+    
+    .badge-canceled {
+      background: #ffebee;
+      color: #f44336;
+    }
+    
+    .history-section {
+      margin-bottom: 2.5rem;
+    }
+    
+    /* Nouveau style pour la notification d'attente */
+    .pending-notification {
+      background: #e3f2fd;
+      color: #1976d2;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-weight: 500;
+      width: 100%;
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      .section-card {
+        padding: 1.5rem;
+      }
+      
+      .nav-pills {
+        padding: 0.35rem;
+      }
+      
+      .nav-pills .nav-link {
+        padding: 0.65rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .stats-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .app-title {
+        font-size: 1.6rem;
+      }
+      
+      .admin-table, .history-table {
+        display: block;
+        overflow-x: auto;
+      }
+      
+      .login-container {
+        margin: 60px auto;
+        padding: 1.75rem;
+      }
+      
+      .whatsapp-input-group {
+        flex-direction: column;
+      }
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+    
+    .delayed-1 { animation-delay: 0.1s; }
+    .delayed-2 { animation-delay: 0.2s; }
+    .delayed-3 { animation-delay: 0.3s; }
+    
+    /* Nouvelle animation pour le badge */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+    
+    .pending-notification {
+      animation: pulse 2s infinite;
+    }
+  </style>
+</head>
+<body>
+  <!-- Page de connexion -->
+  <div id="loginPage" class="container">
+    <div class="login-container">
+      <div class="login-logo">
+        <i class="fas fa-tasks"></i>
+        <h2>Microtâche Mila Vola</h2>
+        <p>Plateforme pour gagner de l'argent en réalisant des microtâches</p>
+      </div>
+      
+      <form id="loginForm">
+        <div class="mb-3">
+          <label for="firstName" class="form-label">Anarana voalohany</label>
+          <input type="text" class="form-control" id="firstName" required>
+        </div>
+        
+        <div class="mb-3">
+          <label for="securityCode" class="form-label">Teny miafina</label>
+          <input type="password" class="form-control" id="securityCode" required>
+          <div class="form-text"></div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary w-100" style="background: var(--primary); border: none; padding: 0.85rem; font-weight: 600; border-radius: 10px;">
+          <i class="fas fa-sign-in-alt me-1"></i> Hiditra
+        </button>
+        
+        <div class="mt-3 text-center">
+          <p>Tsy manana kaonty? <a href="#" id="signupLink">Hisoratra anarana</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Page principale (cachée par défaut) -->
+  <div id="appContainer" class="app-container" style="display:none;">
+    <div class="header">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <h1 class="app-title">Microtâche Mila Vola</h1>
+            <p class="app-subtitle" id="welcomeMessage">Plateforme pour gagner de l'argent en réalisant des microtâches</p>
+          </div>
+          <div class="col-md-4 text-end">
+            <div class="d-flex align-items-center justify-content-end">
+              <div class="d-inline-block bg-white text-dark p-2 rounded-circle me-2">
+                <i class="fas fa-user fa-lg text-primary"></i>
+              </div>
+              <button id="logoutBtn" class="logout-btn">
+                <i class="fas fa-sign-out-alt me-1"></i> Hivoaka
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="firebaseStatus" class="firebase-status status-connected">
+      <i class="fas fa-circle-check"></i> Mila vola 
+    </div>
+
+    <div id="notificationArea"></div>
+
+    <div class="container">
+      <!-- Stats Section -->
+      <div class="section-card">
+        <div class="stats-container">
+          <div class="stat-item fade-in">
+            <div class="stat-number">152</div>
+            <div class="stat-label">Tâches Complétées</div>
+          </div>
+          <div class="stat-item fade-in delayed-1">
+            <div class="stat-number">78</div>
+            <div class="stat-label">Utilisateurs Actifs</div>
+          </div>
+          <div class="stat-item fade-in delayed-2">
+            <div class="stat-number">1.2M Ar</div>
+            <div class="stat-label">Gains Distribués</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="nav nav-pills justify-content-center mb-4">
+        <a class="nav-link" href="#adminSection" onclick="showSection('adminSection')"><i class="fas fa-cog me-1"></i> Admin</a>
+        <a class="nav-link active" href="#accountSection" onclick="showSection('accountSection')"><i class="fas fa-wallet me-1"></i> Compte</a>
+        <a class="nav-link" href="#tasksSection" onclick="showSection('tasksSection')"><i class="fas fa-tasks me-1"></i> Asa</a>
+        <a class="nav-link" href="#publicationSection" onclick="showSection('publicationSection')"><i class="fas fa-bullhorn me-1"></i> Publication</a>
+        <a class="nav-link" href="#settingsSection" onclick="showSection('settingsSection')"><i class="fas fa-sliders-h me-1"></i> Paramètres</a>
+        <!-- Nouvel onglet Historique -->
+        <a class="nav-link" href="#historySection" onclick="showSection('historySection'); loadHistory()"><i class="fas fa-history me-1"></i> Historique</a>
+      </nav>
+
+      <!-- Admin Section -->
+      <div id="adminSection" class="mb-5" style="display:none;">
+        <h4 class="section-title"><i class="fas fa-cog me-2"></i>Admin Panel</h4>
+        <div class="admin-card">
+          <h5 class="admin-header"><i class="fas fa-money-bill-wave me-2"></i>Demandes de Dépôt</h5>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Montant</th>
+                <th>Méthode</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="depotList">
+              <tr>
+                <td colspan="5" class="text-center py-4">
+                  <div class="empty-state py-0">
+                    <i class="fas fa-inbox"></i>
+                    <p>Aucune demande de dépôt en attente</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="admin-card">
+          <h5 class="admin-header"><i class="fas fa-hand-holding-usd me-2"></i>Demandes de Retrait</h5>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Montant</th>
+                <th>Frais</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="retraitList">
+              <tr>
+                <td colspan="5" class="text-center py-4">
+                  <div class="empty-state py-0">
+                    <i class="fas fa-inbox"></i>
+                    <p>Aucune demande de retrait en attente</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="admin-card">
+          <h5 class="admin-header"><i class="fas fa-check-circle me-2"></i>Soumissions de Preuves</h5>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Utilisateur</th>
+                <th>Tâche</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="submissionList">
+              <tr>
+                <td colspan="4" class="text-center py-4">
+                  <div class="empty-state py-0">
+                    <i class="fas fa-inbox"></i>
+                    <p>Aucune soumission de preuve en attente</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Compte Section -->
+      <div id="accountSection" class="mb-5">
+        <h4 class="section-title"><i class="fas fa-wallet me-2"></i>Compte</h4>
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <div class="balance-card gain-card">
+              <div class="balance-label">Solde de Gains</div>
+              <div id="gainBalance" class="balance-amount">0 Ar</div>
+              <div class="mt-2 small">Ce solde peut être retiré</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="balance-card deposit-card">
+              <div class="balance-label">Solde de Dépôt</div>
+              <div id="depositBalance" class="balance-amount">0 Ar</div>
+              <div class="mt-2 small">Utilisé pour publier des tâches</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="d-grid gap-3 d-md-flex">
+          <button class="btn btn-action btn-deposit" data-bs-toggle="modal" data-bs-target="#depositModal">
+            <i class="fas fa-plus-circle me-1"></i> Dépôt
+          </button>
+          <button class="btn btn-action btn-withdraw" data-bs-toggle="modal" data-bs-target="#withdrawModal">
+            <i class="fas fa-minus-circle me-1"></i> Retrait
+          </button>
+        </div>
+      </div>
+
+      <!-- Tasks Section -->
+      <div id="tasksSection" class="mb-5">
+        <h4 class="section-title"><i class="fas fa-tasks me-2"></i>Asa</h4>
+        <div class="alert alert-info">
+          <i class="fas fa-info-circle me-2"></i>Complétez des tâches pour gagner de l'argent. Chaque tâche validée rapporte 50 Ar.
+        </div>
+        <div id="taskList" class="row">
+          <div class="col-12">
+            <div class="empty-state">
+              <i class="fas fa-spinner fa-spin"></i>
+              <p>Chargement des tâches disponibles...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Publication Section -->
+      <div id="publicationSection" class="mb-5" style="display:none;">
+        <h4 class="section-title"><i class="fas fa-bullhorn me-2"></i>Publication</h4>
+        <div class="section-card mb-4">
+          <form id="publishForm" class="mb-3">
+            <div class="mb-3">
+              <label class="form-label">Description de la tâche</label>
+              <textarea id="pubDescription" class="form-control mb-2" placeholder="Décrivez la tâche à réaliser" rows="3" required></textarea>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Budget (≥ 10Ar)</label>
+                <input id="pubBudget" type="number" class="form-control" placeholder="Ex: 100" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Type de tâche</label>
+                <select id="taskType" class="form-select" required>
+                  <option value="">Choisir un type</option>
+                  <option value="social">Réseau social</option>
+                  <option value="website">Inscription site web</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="mb-3" id="socialMediaContainer" style="display:none;">
+              <label class="form-label">Réseau social</label>
+              <select id="socialMedia" class="form-select">
+                <option value="">Sélectionner un réseau</option>
+                <option value="facebook">Facebook</option>
+                <option value="twitter">Twitter</option>
+                <option value="instagram">Instagram</option>
+                <option value="telegram">Télégramme</option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label">URL/Information</label>
+              <input id="pubURL" type="text" class="form-control" placeholder="Lien ou référence" required>
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label">Conditions</label>
+              <textarea id="pubConditions" class="form-control" placeholder="Conditions à respecter" rows="2"></textarea>
+            </div>
+            
+            <button class="btn btn-primary btn-action">
+              <i class="fas fa-paper-plane me-1"></i> Publier la tâche
+            </button>
+          </form>
+        </div>
+        
+        <!-- Nouvelle section WhatsApp -->
+        <div class="section-card mb-4">
+          <div class="whatsapp-section">
+            <h5><i class="fab fa-whatsapp me-2"></i>Configuration WhatsApp</h5>
+            <p>Spécifiez le numéro WhatsApp où les preuves doivent être envoyées</p>
+            
+            <div class="whatsapp-input-group">
+              <input type="tel" id="pubWhatsApp" class="form-control" placeholder="261XXXXXXXXX" required>
+              <button type="button" id="saveWhatsAppBtn">
+                <i class="fas fa-save me-1"></i> Enregistrer
+              </button>
+            </div>
+            
+            <div class="proof-container mt-3">
+              <p class="proof-title"><i class="fas fa-info-circle"></i> Les preuves seront envoyées à ce numéro WhatsApp</p>
+              <p class="small">Après avoir enregistré le numéro, il sera utilisé pour toutes les publications suivantes.</p>
+            </div>
+          </div>
+        </div>
+        
+        <h5 class="mt-4 mb-3"><i class="fas fa-list me-2"></i>Mes Publications</h5>
+        <div id="publicationList" class="row">
+          <div class="col-12">
+            <div class="empty-state">
+              <i class="fas fa-spinner fa-spin"></i>
+              <p>Chargement de vos publications...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Section -->
+      <div id="settingsSection" class="mb-5">
+        <h4 class="section-title"><i class="fas fa-sliders-h me-2"></i>Paramètres</h4>
+        <div class="section-card">
+          <h5><i class="fas fa-user-friends me-2"></i>Programme de Parrainage</h5>
+          <p>Invitez vos amis et gagnez 10% de leurs gains!</p>
+          <div class="mt-3">
+            <p class="mb-1">Votre code de parrainage:</p>
+            <div class="referral-code" id="referralCode">Chargement...</div>
+          </div>
+          
+          <div class="referral-link">
+            <input type="text" class="form-control" id="referralLink" readonly>
+            <button class="btn btn-outline-primary" onclick="copyReferralLink()">
+              <i class="fas fa-copy"></i>
+            </button>
+          </div>
+          
+          <div class="mt-3">
+            <button class="btn btn-primary" onclick="shareReferral()" style="background: var(--primary); border: none; padding: 0.75rem 1.5rem; font-weight: 600; border-radius: 10px;">
+              <i class="fas fa-share-alt me-1"></i> Partager
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nouvelle section Historique -->
+      <div id="historySection" class="mb-5" style="display:none;">
+        <h4 class="section-title"><i class="fas fa-history me-2"></i>Historique des Transactions</h4>
+        
+        <!-- Historique des Dépôts -->
+        <div class="history-section">
+          <h5 class="mb-3"><i class="fas fa-money-bill-wave me-2"></i>Historique des Dépôts</h5>
+          <div class="table-responsive">
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Montant</th>
+                  <th>Méthode</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody id="depositHistory">
+                <tr>
+                  <td colspan="4" class="text-center py-4">
+                    <div class="empty-state py-0">
+                      <i class="fas fa-spinner fa-spin"></i>
+                      <p>Chargement de l'historique des dépôts...</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Historique des Retraits -->
+        <div class="history-section">
+          <h5 class="mb-3"><i class="fas fa-hand-holding-usd me-2"></i>Historique des Retraits</h5>
+          <div class="table-responsive">
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Montant</th>
+                  <th>Frais</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody id="withdrawHistory">
+                <tr>
+                  <td colspan="4" class="text-center py-4">
+                    <div class="empty-state py-0">
+                      <i class="fas fa-spinner fa-spin"></i>
+                      <p>Chargement de l'historique des retraits...</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Historique des Preuves -->
+        <div class="history-section">
+          <h5 class="mb-3"><i class="fas fa-check-circle me-2"></i>Historique des Preuves</h5>
+          <div class="table-responsive">
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Tâche</th>
+                  <th>Statut</th>
+                  <th>Gain</th>
+                </tr>
+              </thead>
+              <tbody id="proofHistory">
+                <tr>
+                  <td colspan="4" class="text-center py-4">
+                    <div class="empty-state py-0">
+                      <i class="fas fa-spinner fa-spin"></i>
+                      <p>Chargement de l'historique des preuves...</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modals -->
+      <!-- Deposit Modal -->
+      <div class="modal fade" id="depositModal" tabindex="-1">
+        <div class="modal-dialog">
+          <form id="depositForm" class="modal-content">
+            <div class="modal-header card-header-gradient">
+              <h5 class="modal-title"><i class="fas fa-plus-circle me-2"></i>Dépôt</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="form-label">Montant (≥ 5000 Ar) 1.3$</label>
+                <input id="depositAmount" type="number" class="form-control" placeholder="Ex: 10000" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Méthode de Paiement</label>
+                <select id="depositMethod" class="form-select" required>
+                  <option value="">Sélectionnez une méthode</option>
+                  <option value="P1132657024">P1132657024</option>
+                  <option value="Orange Money"></option>
+                  <option value="Airtel Money"></option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+              <button type="submit" class="btn btn-primary" style="background: var(--primary); border: none; padding: 0.65rem 1.25rem; font-weight: 600; border-radius: 10px;">Envoyer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Withdraw Modal -->
+      <div class="modal fade" id="withdrawModal" tabindex="-1">
+        <div class="modal-dialog">
+          <form id="withdrawForm" class="modal-content">
+            <div class="modal-header card-header-gradient">
+              <h5 class="modal-title"><i class="fas fa-minus-circle me-2"></i>Retrait</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="form-label">Nom Complet</label>
+                <input id="withdrawName" type="text" class="form-control" placeholder="Votre nom" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Numéro de Téléphone</label>
+                <input id="withdrawPhone" type="tel" class="form-control" placeholder="Votre numéro" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Montant (≥ 1000 Ar)</label>
+                <input id="withdrawAmount" type="number" class="form-control" placeholder="Ex: 20000" required>
+                <div class="form-text">Frais: 10% du montant</div>
+                <div class="form-text text-danger">Attention: Seul le solde de gains peut être retiré</div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+              <button type="submit" class="btn btn-primary" style="background: var(--primary); border: none; padding: 0.65rem 1.25rem; font-weight: 600; border-radius: 10px;">Envoyer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Proof Modal -->
+      <div class="modal fade" id="proofModal" tabindex="-1">
+        <div class="modal-dialog">
+          <form id="submitProofForm" class="modal-content">
+            <input id="taskIdHidden" type="hidden">
+            <div class="modal-header card-header-gradient">
+              <h5 class="modal-title"><i class="fas fa-check-circle me-2"></i>Envoyer Preuve</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="form-label">Votre Identifiant</label>
+                <input id="userName" type="text" class="form-control" placeholder="Nom/Email/Instagram" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Preuve de Réalisation</label>
+                <textarea id="userProof" class="form-control" placeholder="Texte ou URL d'image" rows="3" required></textarea>
+                <div class="form-text">Fournissez un lien ou décrivez votre preuve</div>
+              </div>
+              
+              <div class="proof-container">
+                <p class="proof-title"><i class="fas fa-info-circle"></i> Envoyer une capture d'écran par WhatsApp</p>
+                <a href="#" id="whatsappProofBtn" target="_blank" class="btn whatsapp-btn">
+                  <i class="fab fa-whatsapp"></i> Envoyer par WhatsApp
+                </a>
+                <p class="mt-2 small">Après avoir envoyé votre capture d'écran sur WhatsApp, soumettez votre nom ci-dessus pour que nous puissions vous créditer.</p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+              <button type="submit" class="btn btn-primary" style="background: var(--primary); border: none; padding: 0.65rem 1.25rem; font-weight: 600; border-radius: 10px;">Envoyer</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Confirmation Modal -->
+      <div class="modal fade" id="confirmationModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header card-header-gradient">
+              <h5 class="modal-title"><i class="fas fa-check-circle me-2"></i>Confirmer la Soumission</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="form-label">ID de la Tâche</label>
+                <div class="admin-task-id" id="confirmationTaskId">Chargement...</div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Nom du Participant</label>
+                <input type="text" class="form-control" id="confirmationName" readonly>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Lien de Preuve</label>
+                <input type="text" class="form-control" id="confirmationProof" readonly>
+              </div>
+              <div class="text-center mt-4">
+                <button class="btn btn-success me-2" id="confirmSubmissionBtn">
+                  <i class="fas fa-check me-1"></i> Confirmer
+                </button>
+                <button class="btn btn-danger" id="cancelSubmissionBtn">
+                  <i class="fas fa-times me-1"></i> Annuler
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <footer>
+      <div class="container">
+        <p class="mb-0">Microtâche Mila Vola &copy; 2023 - Plateforme de microtâches</p>
+        <p class="mb-0">Contact: support@milavola.mg | +261 34 00 000 00</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { 
+      getFirestore, collection, addDoc, getDoc, doc,
+      serverTimestamp, query, where, getDocs, setDoc,
+      updateDoc, deleteDoc, onSnapshot
+    } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAC-P6WFH1kqfYQi3PdCWpy4LSUqvtX_vo",
+      authDomain: "mila-vola.firebaseapp.com",
+      projectId: "mila-vola",
+      storageBucket: "mila-vola.appspot.com",
+      messagingSenderId: "690624768352",
+      appId: "1:690624768352:web:668994ef2664c5b99dd605",
+      measurementId: "G-C3FZTKQHFP"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Update Firebase status
+    const firebaseStatus = document.getElementById('firebaseStatus');
+    firebaseStatus.innerHTML = '<i class="fas fa-circle-check"></i> Firebase Connected';
+
+    // Variables globales
+    let userId = "";
+    let isAdmin = false;
+    let userName = "";
+    let userWhatsApp = "";
+
+    // Page elements
+    const loginPage = document.getElementById('loginPage');
+    const appContainer = document.getElementById('appContainer');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    const taskTypeSelect = document.getElementById('taskType');
+    const socialMediaContainer = document.getElementById('socialMediaContainer');
+    const saveWhatsAppBtn = document.getElementById('saveWhatsAppBtn');
+
+    // Gestion du type de tâche
+    taskTypeSelect.addEventListener('change', function() {
+      if (this.value === 'social') {
+        socialMediaContainer.style.display = 'block';
+      } else {
+        socialMediaContainer.style.display = 'none';
+      }
+    });
+
+    // Fonction pour afficher une section
+    window.showSection = (sectionId) => {
+      // Masquer toutes les sections
+      document.getElementById('adminSection').style.display = 'none';
+      document.getElementById('accountSection').style.display = 'none';
+      document.getElementById('tasksSection').style.display = 'none';
+      document.getElementById('publicationSection').style.display = 'none';
+      document.getElementById('settingsSection').style.display = 'none';
+      document.getElementById('historySection').style.display = 'none';
+      
+      // Afficher la section demandée
+      document.getElementById(sectionId).style.display = 'block';
+      
+      // Charger les données si nécessaire
+      if (sectionId === 'adminSection' && isAdmin) {
+        loadAdminPanel();
+      } else if (sectionId === 'tasksSection') {
+        loadTasks();
+      } else if (sectionId === 'publicationSection' && isAdmin) {
+        loadPublications();
+      }
+    };
+
+    // Vérifier si l'utilisateur est déjà connecté
+    function checkLoginStatus() {
+      const savedUser = localStorage.getItem('milaVolaUser');
+      if (savedUser) {
+        const userData = JSON.parse(savedUser);
+        userId = userData.id;
+        userName = userData.name;
+        isAdmin = userData.isAdmin;
+        userWhatsApp = userData.whatsapp || "";
+        
+        // Masquer la page de connexion et afficher l'application
+        loginPage.style.display = 'none';
+        appContainer.style.display = 'block';
+        
+        // Mettre à jour le message de bienvenue
+        welcomeMessage.textContent = `Bienvenue, ${userName} !`;
+        
+        // Charger l'application
+        loadApplication();
+      }
+    }
+
+    // Gestion du formulaire de connexion
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const firstName = document.getElementById('firstName').value.trim();
+      const securityCode = document.getElementById('securityCode').value;
+      
+      if (!firstName || !securityCode) {
+        alert('Ampidiro ny anarana sy ny teny miafina');
+        return;
+      }
+      
+      // Vérifier si le code d'accès est celui de l'admin
+      const adminAccess = securityCode === "Rakoto12";
+      
+      // Créer un ID utilisateur basé sur le nom
+      const userID = firstName.toLowerCase().replace(/\s+/g, '-') + '-' + Math.floor(1000 + Math.random() * 9000);
+      
+      try {
+        // Vérifier si l'utilisateur existe déjà
+        const userRef = doc(db, "users", userID);
+        const userSnap = await getDoc(userRef);
+        
+        if (userSnap.exists()) {
+          // Vérifier le mot de passe
+          const userData = userSnap.data();
+          if (userData.securityCode !== securityCode) {
+            alert('Teny miafina diso!');
+            return;
+          }
+        } else {
+          // Créer un nouvel utilisateur
+          await setDoc(userRef, {
+            name: firstName,
+            securityCode: securityCode,
+            gain: 0,
+            depot: 0,
+            createdAt: serverTimestamp(),
+            isAdmin: adminAccess,
+            completedTasks: [],
+            whatsapp: ""
+          });
+        }
+        
+        // Récupérer les informations de l'utilisateur
+        const userDoc = await getDoc(userRef);
+        const userData = userDoc.data();
+        
+        // Stocker les informations de l'utilisateur
+        userId = userID;
+        userName = userData.name;
+        isAdmin = userData.isAdmin || adminAccess;
+        userWhatsApp = userData.whatsapp || "";
+        
+        // Sauvegarder dans localStorage
+        localStorage.setItem('milaVolaUser', JSON.stringify({
+          id: userId,
+          name: userName,
+          isAdmin: isAdmin,
+          whatsapp: userWhatsApp
+        }));
+        
+        // Mettre à jour le message de bienvenue
+        welcomeMessage.textContent = `Bienvenue, ${userName} !`;
+        
+        // Masquer la page de connexion et afficher l'application
+        loginPage.style.display = 'none';
+        appContainer.style.display = 'block';
+        
+        // Charger l'application
+        loadApplication();
+        
+      } catch (error) {
+        console.error("Erreur de connexion:", error);
+        alert("Erreur de connexion: " + error.message);
+      }
+    });
+
+    // Déconnexion
+    logoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('milaVolaUser');
+      location.reload();
+    });
+
+    // Charger l'application après connexion
+    async function loadApplication() {
+      await loadBalances();
+      await loadTasks();
+      await loadPublications();
+      document.getElementById("referralCode").textContent = userId;
+      document.getElementById('referralLink').value = window.location.href.split('?')[0] + '?ref=' + userId;
+      
+      // Gestion des sections admin/publication
+      if (isAdmin) {
+        document.getElementById('adminSection').style.display = 'none';
+        document.getElementById('publicationSection').style.display = 'none';
+      } else {
+        document.getElementById('adminSection').style.display = 'none';
+        document.getElementById('publicationSection').style.display = 'none';
+      }
+      
+      // Afficher la section Compte par défaut
+      document.getElementById('accountSection').style.display = 'block';
+      
+      // Setup real-time listeners
+      setupRealtimeListeners();
+    }
+
+    // --- Section Compte ---
+    async function loadBalances() {
+      try {
+        const userRef = doc(db, "users", userId);
+        const snap = await getDoc(userRef);
+        const data = snap.exists() ? snap.data() : { gain: 0, depot: 0 };
+        document.getElementById("gainBalance").textContent = data.gain + " Ar";
+        document.getElementById("depositBalance").textContent = data.depot + " Ar";
+      } catch (error) {
+        console.error("Error loading balances:", error);
+      }
+    }
+
+    document.getElementById("depositForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const montant = parseFloat(document.getElementById("depositAmount").value);
+      const method = document.getElementById("depositMethod").value;
+      
+      if (montant >= 5000 && method) {
+        try {
+          await addDoc(collection(db, "depot_requests"), {
+            userId, userName, montant, method,
+            status: "en attente", createdAt: serverTimestamp()
+          });
+          showNotification("Dépôt voaray! Votre demande est en cours de traitement.", "success");
+          
+          // Reset form and close modal
+          e.target.reset();
+          bootstrap.Modal.getInstance(document.getElementById('depositModal')).hide();
+        } catch (error) {
+          showNotification("Erreur lors du dépôt: " + error.message, "danger");
+        }
+      } else {
+        showNotification("Ampidiro araka ny tokony ho izy ny vola (min 5000 Ar) sy fomba fandoavana.", "warning");
+      }
+    });
+
+    document.getElementById("withdrawForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nom = document.getElementById("withdrawName").value;
+      const phone = document.getElementById("withdrawPhone").value;
+      const montant = parseFloat(document.getElementById("withdrawAmount").value);
+      
+      try {
+        // Vérifier le solde de gains
+        const userRef = doc(db, "users", userId);
+        const userSnap = await getDoc(userRef);
+        const userData = userSnap.data();
+        
+        if (montant > userData.gain) {
+          showNotification("Solde de gains insuffisant. Vous ne pouvez retirer que votre solde de gains.", "warning");
+          return;
+        }
+        
+        if (montant >= 1000) {
+          const frais = montant * 0.1;
+          await addDoc(collection(db, "retrait_requests"), {
+            userId, userName, nom, phone, montant, frais,
+            status: "en attente", createdAt: serverTimestamp()
+          });
+          showNotification("Retrait voaray! Votre demande est en cours de traitement.", "success");
+          
+          // Reset form and close modal
+          e.target.reset();
+          bootstrap.Modal.getInstance(document.getElementById('withdrawModal')).hide();
+        } else {
+          showNotification("Tsara indrindra ny ≥ 10000 Ar", "warning");
+        }
+      } catch (error) {
+        showNotification("Erreur lors du retrait: " + error.message, "danger");
+      }
+    });
+
+    // --- Section Asa (Proof) ---
+    async function loadTasks() {
+      try {
+        const list = document.getElementById("taskList");
+        list.innerHTML = '';
+        
+        // Récupérer les tâches complétées par l'utilisateur
+        const userRef = doc(db, "users", userId);
+        const userSnap = await getDoc(userRef);
+        const completedTasks = userSnap.exists() ? userSnap.data().completedTasks || [] : [];
+        
+        // Récupérer les soumissions en attente de l'utilisateur
+        const pendingSubmissions = new Set();
+        try {
+          const submissionsQuery = query(collection(db, "submissions"), 
+            where("userId", "==", userId),
+            where("status", "==", "en attente"));
+          const submissionsSnap = await getDocs(submissionsQuery);
+          submissionsSnap.forEach(doc => {
+            const data = doc.data();
+            pendingSubmissions.add(data.taskId);
+          });
+        } catch (error) {
+          console.error("Erreur lors du chargement des soumissions en attente:", error);
+        }
+        
+        const q = query(collection(db, "tasks"), where("status","==","active"));
+        const snap = await getDocs(q);
+        
+        if (snap.empty) {
+          list.innerHTML = `
+            <div class="col-12">
+              <div class="empty-state">
+                <i class="fas fa-tasks"></i>
+                <p>Aucune tâche disponible pour le moment</p>
+              </div>
+            </div>
+          `;
+          return;
+        }
+        
+        list.innerHTML = '';
+        snap.forEach(docSnap => {
+          const d = docSnap.data();
+          const taskId = docSnap.id;
+          
+          // Vérifier si la tâche est déjà complétée
+          const isCompleted = completedTasks.includes(taskId);
+          // Vérifier si l'utilisateur a une soumission en attente pour cette tâche
+          const isPending = pendingSubmissions.has(taskId);
+          
+          const el = document.createElement('div');
+          el.className = isCompleted ? 'col-md-4 mb-3 completed-task' : 'col-md-4 mb-3';
+          
+          let icon = '';
+          let typeBadge = '';
+          let borderClass = '';
+          
+          if (d.taskType === 'social') {
+            switch(d.socialMedia) {
+              case 'facebook':
+                icon = '<i class="fab fa-facebook social-icon facebook"></i>';
+                typeBadge = '<span class="task-type-badge">Facebook</span>';
+                borderClass = 'social-task';
+                break;
+              case 'twitter':
+                icon = '<i class="fab fa-twitter social-icon twitter"></i>';
+                typeBadge = '<span class="task-type-badge">Twitter</span>';
+                borderClass = 'social-task';
+                break;
+              case 'instagram':
+                icon = '<i class="fab fa-instagram social-icon instagram"></i>';
+                typeBadge = '<span class="task-type-badge">Instagram</span>';
+                borderClass = 'social-task';
+                break;
+              case 'telegram':
+                icon = '<i class="fab fa-telegram social-icon telegram"></i>';
+                typeBadge = '<span class="task-type-badge">Télégramme</span>';
+                borderClass = 'social-task';
+                break;
+            }
+          } else if (d.taskType === 'website') {
+            icon = '<i class="fas fa-globe social-icon website"></i>';
+            typeBadge = '<span class="task-type-badge">Inscription site</span>';
+            borderClass = 'website-task';
+          }
+          
+          el.innerHTML = `
+            <div class="task-card card ${borderClass}">
+              <div class="card-body">
+                ${typeBadge}
+                <span class="task-badge">${d.budget} Ar</span>
+                <h6 class="card-title">${icon} ${d.description}</h6>
+                <small class="d-block text-muted mb-2">Conditions: ${d.cond || 'Aucune'}</small>
+                <div class="small mt-2">ID: ${taskId.substring(0,8)}...</div>
+                <div class="mt-2">
+                  <a href="${d.url}" target="_blank" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-external-link-alt me-1"></i> Accéder à la tâche
+                  </a>
+                </div>
+                ${isCompleted ? '' : 
+                  (isPending ? 
+                    '<div class="pending-notification"><i class="fas fa-clock me-2"></i>En attente de vérification</div>' : 
+                    `<button class='btn btn-primary w-100 mt-3' onclick='openProofModal("${taskId}", "${d.whatsapp || ''}")'>
+                      <i class="fas fa-paper-plane me-1"></i> Envoyer preuve
+                    </button>`
+                  )
+                }
+              </div>
+            </div>
+          `;
+          list.appendChild(el);
+        });
+      } catch (error) {
+        console.error("Error loading tasks:", error);
+      }
+    }
+
+    document.getElementById("submitProofForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const taskId = document.getElementById("taskIdHidden").value;
+      const name = document.getElementById("userName").value;
+      const proof = document.getElementById("userProof").value;
+      
+      if (!taskId || !name || !proof) {
+        showNotification("Ampidiro ny angona rehetra", "warning");
+        return;
+      }
+      
+      try {
+        // Vérifier si l'utilisateur a déjà soumis une preuve pour cette tâche
+        const submissionKey = `${userId}_${taskId}`;
+        const submissionRef = doc(db, "submissions", submissionKey);
+        const submissionSnap = await getDoc(submissionRef);
+        
+        if (submissionSnap.exists()) {
+          showNotification("Vous avez déjà soumis une preuve pour cette tâche.", "warning");
+          return;
+        }
+        
+        await setDoc(submissionRef, {
+          userId, userName, taskId, name, proof,
+          status: "en attente", createdAt: serverTimestamp()
+        });
+        
+        showNotification("Porofo nalefa! Ny mpitantana dia handinika azy.", "success");
+        
+        // Recharger les tâches pour afficher la notification
+        loadTasks();
+        
+        // Reset form and close modal
+        e.target.reset();
+        bootstrap.Modal.getInstance(document.getElementById('proofModal')).hide();
+      } catch (error) {
+        showNotification("Erreur lors de l'envoi de la preuve: " + error.message, "danger");
+      }
+    });
+
+    window.openProofModal = async (id, whatsapp) => {
+      document.getElementById('taskIdHidden').value = id;
+      
+      // Mettre à jour le lien WhatsApp
+      const whatsappBtn = document.getElementById('whatsappProofBtn');
+      const defaultMessage = "Nanatanteraka ny asa tamin'ny Microtâche Mila Vola aho. Izao ny porofoko:";
+      
+      if (whatsapp) {
+        whatsappBtn.href = `https://wa.me/${whatsapp}?text=${encodeURIComponent(defaultMessage)}`;
+      } else {
+        whatsappBtn.href = "https://wa.me/261384557584";
+      }
+      
+      // Ouvrir la modal
+      new bootstrap.Modal(document.getElementById('proofModal')).show();
+    };
+
+    // --- Gestion WhatsApp ---
+    saveWhatsAppBtn.addEventListener('click', async () => {
+      const whatsapp = document.getElementById('pubWhatsApp').value.trim();
+      
+      if (!whatsapp || whatsapp.length < 10) {
+        showNotification("Ampidiro ny laharana WhatsApp araka ny tokony ho izy", "warning");
+        return;
+      }
+      
+      try {
+        const userRef = doc(db, "users", userId);
+        await updateDoc(userRef, {
+          whatsapp: whatsapp
+        });
+        
+        userWhatsApp = whatsapp;
+        showNotification("Laharana WhatsApp voarakitra!", "success");
+      } catch (error) {
+        showNotification("Erreur lors de l'enregistrement: " + error.message, "danger");
+      }
+    });
+
+    // --- Section Publication ---
+    async function loadPublications() {
+      try {
+        const list = document.getElementById('publicationList');
+        list.innerHTML = '';
+        
+        const q = query(collection(db,'tasks'), where('publisher','==',userId));
+        const snap = await getDocs(q);
+        
+        if (snap.empty) {
+          list.innerHTML = `
+            <div class="col-12">
+              <div class="empty-state">
+                <i class="fas fa-bullhorn"></i>
+                <p>Vous n'avez publié aucune tâche</p>
+              </div>
+            </div>
+          `;
+          return;
+        }
+        
+        list.innerHTML = '';
+        snap.forEach(docSnap => {
+          const d = docSnap.data();
+          const taskId = docSnap.id;
+          const el = document.createElement('div');
+          el.className = 'col-md-6 mb-3';
+          
+          let icon = '';
+          let typeText = '';
+          
+          if (d.taskType === 'social') {
+            switch(d.socialMedia) {
+              case 'facebook': 
+                icon = '<i class="fab fa-facebook social-icon facebook"></i>';
+                typeText = 'Réseau social: Facebook';
+                break;
+              case 'twitter': 
+                icon = '<i class="fab fa-twitter social-icon twitter"></i>';
+                typeText = 'Réseau social: Twitter';
+                break;
+              case 'instagram': 
+                icon = '<i class="fab fa-instagram social-icon instagram"></i>';
+                typeText = 'Réseau social: Instagram';
+                break;
+              case 'telegram': 
+                icon = '<i class="fab fa-telegram social-icon telegram"></i>';
+                typeText = 'Réseau social: Télégramme';
+                break;
+            }
+          } else if (d.taskType === 'website') {
+            icon = '<i class="fas fa-globe social-icon website"></i>';
+            typeText = 'Inscription site web';
+          }
+          
+          el.innerHTML = `
+            <div class="card task-card">
+              <div class="card-body">
+                <h6>${icon} ${d.description}</h6>
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                  <span class="badge bg-warning">${d.budget} Ar</span>
+                  <span class="badge bg-success">Active</span>
+                </div>
+                <div class="mt-2 small">${typeText}</div>
+                <div class="mt-2 small">WhatsApp: ${d.whatsapp || 'Non configuré'}</div>
+                <div class="admin-task-id" onclick="copyToClipboard('${taskId}')">ID: ${taskId.substring(0,8)}...</div>
+                <div class="mt-2">
+                  <a href="${d.url}" target="_blank" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-external-link-alt me-1"></i> Voir la tâche
+                  </a>
+                </div>
+              </div>
+            </div>
+          `;
+          list.appendChild(el);
+        });
+        
+        // Préremplir le champ WhatsApp
+        if (userWhatsApp) {
+          document.getElementById('pubWhatsApp').value = userWhatsApp;
+        }
+      } catch (error) {
+        console.error("Error loading publications:", error);
+      }
+    }
+
+    document.getElementById('publishForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const desc = document.getElementById('pubDescription').value;
+      const budget = parseInt(document.getElementById('pubBudget').value);
+      const url = document.getElementById('pubURL').value;
+      const cond = document.getElementById('pubConditions').value;
+      const taskType = document.getElementById('taskType').value;
+      const socialMedia = document.getElementById('socialMedia').value;
+      
+      if (budget < 10) {
+        showNotification('Budget ≥ 50 Ar', 'warning');
+        return;
+      }
+      
+      if (!taskType) {
+        showNotification('Sélectionnez un type de tâche', 'warning');
+        return;
+      }
+      
+      if (taskType === 'social' && !socialMedia) {
+        showNotification('Sélectionnez un réseau social', 'warning');
+        return;
+      }
+      
+      try {
+        // Vérifier le solde de dépôt
+        const userRef = doc(db, "users", userId);
+        const userSnap = await getDoc(userRef);
+        const userData = userSnap.data();
+        
+        if (userData.depot < budget) {
+          showNotification('Solde de dépôt insuffisant', 'warning');
+          return;
+        }
+        
+        // Déduire le budget du solde de dépôt
+        await updateDoc(userRef, {
+          depot: userData.depot - budget
+        });
+        
+        // Créer la tâche
+        await addDoc(collection(db,'tasks'),{
+          publisher: userId,
+          publisherName: userName,
+          description: desc,
+          budget,
+          url,
+          cond,
+          taskType,
+          socialMedia: taskType === 'social' ? socialMedia : '',
+          status: 'active',
+          whatsapp: userWhatsApp,
+          createdAt: serverTimestamp()
+        });
+        
+        showNotification('Asa navoaka!', 'success');
+        loadPublications();
+        loadBalances();
+        
+        // Reset form
+        e.target.reset();
+        socialMediaContainer.style.display = 'none';
+      } catch (error) {
+        showNotification("Erreur lors de la publication: " + error.message, 'danger');
+      }
+    });
+
+    // --- Section Admin ---
+    async function loadAdminPanel() {
+      await loadRequests('depot_requests','depotList','depot');
+      await loadRequests('retrait_requests','retraitList','retrait');
+      await loadRequests('submissions','submissionList','proof');
+    }
+    
+    async function loadRequests(col, container, type) {
+      try {
+        const c = document.getElementById(container);
+        c.innerHTML = '';
+        
+        const q = query(collection(db, col), where('status','==','en attente'));
+        const snap = await getDocs(q);
+        
+        if (snap.empty) {
+          c.innerHTML = `
+            <tr>
+              <td colspan="5" class="text-center py-4">
+                <div class="empty-state py-0">
+                  <i class="fas fa-inbox"></i>
+                  <p>Aucune demande en attente</p>
+                </div>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+        
+        snap.forEach(docSnap => {
+          const d = docSnap.data();
+          const date = d.createdAt ? new Date(d.createdAt.seconds * 1000).toLocaleString() : 'Date inconnue';
+          const el = document.createElement('tr');
+          
+          if (type === 'depot') {
+            el.innerHTML = `
+              <td>${d.userName || d.userId}</td>
+              <td>${d.montant} Ar</td>
+              <td>${d.method}</td>
+              <td>${date}</td>
+              <td class="admin-actions">
+                <button class='btn btn-success btn-sm me-1' onclick='confirmAction("${col}","${docSnap.id}","${type}",${JSON.stringify(d)})'>
+                  <i class="fas fa-check me-1"></i>
+                </button>
+                <button class='btn btn-danger btn-sm' onclick='cancelAction("${col}","${docSnap.id}")'>
+                  <i class="fas fa-times me-1"></i>
+                </button>
+              </td>
+            `;
+          } else if (type === 'retrait') {
+            el.innerHTML = `
+              <td>${d.nom || d.userName || d.userId}</td>
+              <td>${d.montant} Ar</td>
+              <td>${d.frais || 0} Ar</td>
+              <td>${date}</td>
+              <td class="admin-actions">
+                <button class='btn btn-success btn-sm me-1' onclick='confirmAction("${col}","${docSnap.id}","${type}",${JSON.stringify(d)})'>
+                  <i class="fas fa-check me-1"></i>
+                </button>
+                <button class='btn btn-danger btn-sm' onclick='cancelAction("${col}","${docSnap.id}")'>
+                  <i class="fas fa-times me-1"></i>
+                </button>
+              </td>
+            `;
+          } else if (type === 'proof') {
+            el.innerHTML = `
+              <td>${d.userName || d.userId}</td>
+              <td>${d.taskId || 'Inconnue'}</td>
+              <td>${date}</td>
+              <td class="admin-actions">
+                <button class='btn btn-success btn-sm me-1' onclick='openConfirmationModal("${docSnap.id}",${JSON.stringify(d)})'>
+                  <i class="fas fa-check me-1"></i>
+                </button>
+                <button class='btn btn-danger btn-sm' onclick='cancelAction("${col}","${docSnap.id}")'>
+                  <i class="fas fa-times me-1"></i>
+                </button>
+              </td>
+            `;
+          }
+          
+          c.appendChild(el);
+        });
+      } catch (error) {
+        console.error(`Error loading ${col}:`, error);
+      }
+    }
+
+    // --- Section Historique ---
+    async function loadHistory() {
+      try {
+        // Charger l'historique des dépôts
+        const depositQuery = query(collection(db, "depot_requests"), where("userId", "==", userId));
+        const depositSnap = await getDocs(depositQuery);
+        const depositList = document.getElementById('depositHistory');
+        depositList.innerHTML = '';
+        
+        if (depositSnap.empty) {
+          depositList.innerHTML = `
+            <tr>
+              <td colspan="4" class="text-center py-4">
+                <div class="empty-state py-0">
+                  <i class="fas fa-inbox"></i>
+                  <p>Aucun historique de dépôt</p>
+                </div>
+              </td>
+            </tr>
+          `;
+        } else {
+          depositSnap.forEach(doc => {
+            const d = doc.data();
+            const date = d.createdAt ? new Date(d.createdAt.seconds * 1000).toLocaleDateString() : 'N/A';
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${date}</td>
+              <td>${d.montant} Ar</td>
+              <td>${d.method}</td>
+              <td><span class="history-badge badge-${d.status === 'confirmé' ? 'confirmed' : d.status === 'en attente' ? 'pending' : 'canceled'}">${d.status}</span></td>
+            `;
+            depositList.appendChild(row);
+          });
+        }
+        
+        // Charger l'historique des retraits
+        const withdrawQuery = query(collection(db, "retrait_requests"), where("userId", "==", userId));
+        const withdrawSnap = await getDocs(withdrawQuery);
+        const withdrawList = document.getElementById('withdrawHistory');
+        withdrawList.innerHTML = '';
+        
+        if (withdrawSnap.empty) {
+          withdrawList.innerHTML = `
+            <tr>
+              <td colspan="4" class="text-center py-4">
+                <div class="empty-state py-0">
+                  <i class="fas fa-inbox"></i>
+                  <p>Aucun historique de retrait</p>
+                </div>
+              </td>
+            </tr>
+          `;
+        } else {
+          withdrawSnap.forEach(doc => {
+            const d = doc.data();
+            const date = d.createdAt ? new Date(d.createdAt.seconds * 1000).toLocaleDateString() : 'N/A';
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${date}</td>
+              <td>${d.montant} Ar</td>
+              <td>${d.frais || 0} Ar</td>
+              <td><span class="history-badge badge-${d.status === 'confirmé' ? 'confirmed' : d.status === 'en attente' ? 'pending' : 'canceled'}">${d.status}</span></td>
+            `;
+            withdrawList.appendChild(row);
+          });
+        }
+        
+        // Charger l'historique des preuves
+        const proofQuery = query(collection(db, "submissions"), where("userId", "==", userId));
+        const proofSnap = await getDocs(proofQuery);
+        const proofList = document.getElementById('proofHistory');
+        proofList.innerHTML = '';
+        
+        if (proofSnap.empty) {
+          proofList.innerHTML = `
+            <tr>
+              <td colspan="4" class="text-center py-4">
+                <div class="empty-state py-0">
+                  <i class="fas fa-inbox"></i>
+                  <p>Aucun historique de preuve</p>
+                </div>
+              </td>
+            </tr>
+          `;
+        } else {
+          proofSnap.forEach(doc => {
+            const d = doc.data();
+            const date = d.createdAt ? new Date(d.createdAt.seconds * 1000).toLocaleDateString() : 'N/A';
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${date}</td>
+              <td>${d.taskId.substring(0, 8)}...</td>
+              <td><span class="history-badge badge-${d.status === 'confirmé' ? 'confirmed' : d.status === 'en attente' ? 'pending' : 'canceled'}">${d.status}</span></td>
+              <td>${d.status === 'confirmé' ? '50 Ar' : '-'}</td>
+            `;
+            proofList.appendChild(row);
+          });
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement de l'historique:", error);
+        showNotification("Erreur lors du chargement de l'historique", "danger");
+      }
+    }
+
+    // Ajout de la fonction à l'objet window pour la rendre accessible globalement
+    window.loadHistory = loadHistory;
+
+    window.openConfirmationModal = (submissionId, submissionData) => {
+      document.getElementById('confirmationTaskId').textContent = submissionData.taskId || 'Inconnu';
+      document.getElementById('confirmationName').value = submissionData.name || 'Non spécifié';
+      document.getElementById('confirmationProof').value = submissionData.proof || 'Aucun lien';
+      
+      // Configurer les boutons de confirmation
+      document.getElementById('confirmSubmissionBtn').onclick = () => {
+        confirmAction('submissions', submissionId, 'proof', submissionData);
+        bootstrap.Modal.getInstance(document.getElementById('confirmationModal')).hide();
+      };
+      
+      document.getElementById('cancelSubmissionBtn').onclick = () => {
+        cancelAction('submissions', submissionId);
+        bootstrap.Modal.getInstance(document.getElementById('confirmationModal')).hide();
+      };
+      
+      // Ouvrir la modal
+      new bootstrap.Modal(document.getElementById('confirmationModal')).show();
+    };
+
+    window.confirmAction = async (col, id, type, d) => {
+      try {
+        await updateDoc(doc(db, col, id), {status: 'confirmé'});
+        
+        const uRef = doc(db, 'users', d.userId);
+        const uSnap = await getDoc(uRef);
+        const u = uSnap.exists() ? uSnap.data() : {gain: 0, depot: 0};
+        
+        if (type === 'depot') {
+          await updateDoc(uRef, {depot: u.depot + d.montant});
+          showNotification('Dépôt confirmé!', 'success');
+        } else if (type === 'retrait') {
+          await updateDoc(uRef, {depot: u.depot - (d.montant + d.frais)});
+          showNotification('Retrait confirmé!', 'success');
+        } else if (type === 'proof') {
+          // Récupérer la tâche pour obtenir le budget
+          const taskRef = doc(db, 'tasks', d.taskId);
+          const taskSnap = await getDoc(taskRef);
+          if (!taskSnap.exists()) {
+            throw new Error('Tâche introuvable');
+          }
+          const taskData = taskSnap.data();
+          const taskBudget = taskData.budget;
+          
+          // Mettre à jour le solde de gains
+          await updateDoc(uRef, {gain: u.gain + taskBudget});
+          
+          // Ajouter la tâche complétée à la liste de l'utilisateur
+          const completedTasks = u.completedTasks || [];
+          if (!completedTasks.includes(d.taskId)) {
+            completedTasks.push(d.taskId);
+            await updateDoc(uRef, {completedTasks});
+          }
+          
+          showNotification(`Tâche confirmée! ${taskBudget} Ar crédités.`, 'success');
+        }
+        
+        loadAdminPanel();
+        loadBalances();
+      } catch (error) {
+        showNotification("Erreur lors de la confirmation: " + error.message, 'danger');
+      }
+    };
+
+    window.cancelAction = async (col, id) => {
+      try {
+        await deleteDoc(doc(db, col, id));
+        showNotification('Demande annulée', 'info');
+        loadAdminPanel();
+      } catch (error) {
+        showNotification("Erreur lors de l'annulation: " + error.message, 'danger');
+      }
+    };
+
+    // Setup real-time listeners for balances
+    function setupRealtimeListeners() {
+      const userRef = doc(db, "users", userId);
+      
+      onSnapshot(userRef, (doc) => {
+        if (doc.exists()) {
+          const data = doc.data();
+          document.getElementById("gainBalance").textContent = data.gain + " Ar";
+          document.getElementById("depositBalance").textContent = data.depot + " Ar";
+        }
+      });
+    }
+
+    // Fonctions utilitaires
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text);
+      showNotification('ID copié dans le presse-papiers!', 'success');
+    }
+    
+    function copyReferralLink() {
+      const link = document.getElementById('referralLink');
+      link.select();
+      document.execCommand('copy');
+      showNotification('Lien copié dans le presse-papiers!', 'success');
+    }
+
+    function shareReferral() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Microtâche Mila Vola',
+          text: 'Rejoignez la plateforme Microtâche Mila Vola et gagnez de l\'argent en réalisant des microtâches!',
+          url: document.getElementById('referralLink').value
+        })
+        .catch(error => console.log('Erreur de partage:', error));
+      } else {
+        copyReferralLink();
+      }
+    }
+
+    // Fonction d'affichage de notification
+    function showNotification(message, type) {
+      const notificationArea = document.getElementById('notificationArea');
+      const notification = document.createElement('div');
+      notification.className = `notification bg-${type === 'success' ? 'success' : type === 'warning' ? 'warning' : 'danger'}`;
+      notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'exclamation-circle'}"></i>
+        <span>${message}</span>
+      `;
+      
+      notificationArea.appendChild(notification);
+      
+      // Supprimer la notification après 3 secondes
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
+    }
+
+    // Vérifier le paramètre de référence dans l'URL
+    function checkReferral() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ref = urlParams.get('ref');
+      if (ref) {
+        document.getElementById('securityCode').value = ref;
+        showNotification("Vous avez été invité par un parrain! Utilisez le code d'accès pour bénéficier des avantages.", "info");
+      }
+    }
+
+    // Vérifier le statut de connexion au chargement
+    checkLoginStatus();
+    checkReferral();
+  </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="mg">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat Mila Vola</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Segoe UI', 'Roboto', sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #1a2a6c, #2a4365);
+      color: #333;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at top right, rgba(106, 17, 203, 0.15), transparent 70%),
+                  radial-gradient(circle at bottom left, rgba(52, 152, 219, 0.15), transparent 70%);
+      z-index: -1;
+    }
+    
+    header {
+      background: linear-gradient(to right, #4A00E0, #8E2DE2);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .logo i {
+      font-size: 2.5rem;
+      color: #FFD700;
+    }
+    
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 20px;
+    }
+    
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 15px;
+      border-radius: 20px;
+      transition: background 0.3s;
+    }
+    
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .hero {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+      text-align: center;
+      color: white;
+    }
+    
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+    
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin: 60px 0;
+    }
+    
+    .feature-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 30px;
+      width: 280px;
+      text-align: center;
+      transition: transform 0.3s;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      background: rgba(255, 255, 255, 0.15);
+    }
+    
+    .feature-card i {
+      font-size: 3rem;
+      color: #8E2DE2;
+      margin-bottom: 20px;
+    }
+    
+    .feature-card h3 {
+      color: white;
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+    }
+    
+    .feature-card p {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 1rem;
+    }
+    
+    .how-it-works {
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 0 20px;
+      color: white;
+      text-align: center;
+    }
+    
+    .how-it-works h2 {
+      font-size: 2.2rem;
+      margin-bottom: 40px;
+    }
+    
+    .steps {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+    
+    .step {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 25px;
+      width: 280px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .step-number {
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(to right, #4A00E0, #8E2DE2);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    
+    .step h3 {
+      margin: 15px 0;
+      font-size: 1.3rem;
+    }
+    
+    .step p {
+      color: rgba(255, 255, 255, 0.85);
+    }
+    
+    footer {
+      background: rgba(0, 0, 0, 0.2);
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      padding: 20px;
+      margin-top: auto;
+    }
+    
+    /* Icône flottante */
+    .floating-chat-icon {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(to right, #4A00E0, #8E2DE2);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      z-index: 1000;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .floating-chat-icon:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+    
+    .floating-chat-icon .badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      color: white;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+      box-shadow: 0 3px 8px rgba(255, 75, 43, 0.4);
+      z-index: 10;
+    }
+    
+    /* Modal de chat */
+    .chat-modal {
+      position: fixed;
+      bottom: 115px;
+      right: 30px;
+      width: 350px;
+      height: 450px;
+      background: rgba(247, 249, 252, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      z-index: 999;
+      transform: translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .chat-modal.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .chat-modal-header {
+      background: linear-gradient(to right, #4A00E0, #8E2DE2);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 20px 20px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .chat-modal-header h3 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 1.3rem;
+    }
+    
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+    
+    .modal-close-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .modal-chat-box {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      background: rgba(245, 247, 250, 0.8);
+    }
+    
+    .modal-input-container {
+      padding: 12px;
+      background: white;
+      border-top: 1px solid #e0e0e0;
+      display: flex;
+    }
+    
+    .modal-message-input {
+      flex: 1;
+      padding: 12px 15px;
+      border: none;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      background: #f5f7ff;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.06);
+    }
+    
+    .modal-message-input:focus {
+      outline: none;
+      box-shadow: inset 0 2px 10px rgba(74, 0, 224, 0.1);
+    }
+    
+    .send-btn {
+      background: linear-gradient(to right, #4A00E0, #8E2DE2);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      margin-left: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+    }
+    
+    .send-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    /* Style pour les messages */
+    .message {
+      max-width: 80%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      position: relative;
+      animation: fadeIn 0.4s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      line-height: 1.4;
+      font-size: 1rem;
+    }
+    
+    .message.sent {
+      align-self: flex-end;
+      background: linear-gradient(to right, #4A00E0, #8E2DE2);
+      color: white;
+      border-bottom-right-radius: 5px;
+    }
+    
+    .message.received {
+      align-self: flex-start;
+      background: white;
+      color: #333;
+      border: 1px solid #eaeaea;
+      border-bottom-left-radius: 5px;
+    }
+    
+    .message .sender {
+      font-weight: 600;
+      font-size: 0.8rem;
+      margin-bottom: 4px;
+      display: block;
+    }
+    
+    .message.sent .sender {
+      color: rgba(255, 255, 255, 0.85);
+    }
+    
+    .message.received .sender {
+      color: #7e57c2;
+    }
+    
+    .message .time {
+      font-size: 0.7rem;
+      text-align: right;
+      margin-top: 5px;
+      opacity: 0.7;
+    }
+    
+    .message.sent .time {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .message.received .time {
+      color: #777;
+    }
+    
+    .new-message-notification {
+      background: linear-gradient(to right, #4A00E0, #8E2DE2);
+      color: white;
+      text-align: center;
+      padding: 10px;
+      font-size: 0.9rem;
+      animation: fadeIn 0.5s;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: none;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+      40% {transform: translateY(-15px);}
+      60% {transform: translateY(-7px);}
+    }
+    
+    .bounce {
+      animation: bounce 0.8s;
+    }
+    
+    /* Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 998;
+      display: none;
+    }
+    
+    .modal-overlay.active {
+      display: block;
+    }
+    
+    /* Scrollbar */
+    .modal-chat-box::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .modal-chat-box::-webkit-scrollbar-track {
+      background: rgba(245, 247, 250, 0.5);
+      border-radius: 3px;
+    }
+    
+    .modal-chat-box::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, #8E2DE2, #4A00E0);
+      border-radius: 3px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .feature-card, .step {
+        width: 100%;
+        max-width: 350px;
+      }
+      
+      .chat-modal {
+        width: 90%;
+        right: 5%;
+        height: 70vh;
+        bottom: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <i class="fas fa-comments"></i>
+        <h1>Mila Vola</h1>
+      
+  <footer>
+    <p>Chat Mila Vola &copy; 2023 - Tous droits réservés</p>
+  </footer>
+  
+  <!-- Icône flottante avec badge -->
+  <div class="floating-chat-icon" id="chatIcon">
+    <i class="fas fa-comments"></i>
+    <div class="badge" id="messageBadge">0</div>
+  </div>
+  
+  <!-- Modal de chat -->
+  <div class="chat-modal" id="chatModal">
+    <div class="chat-modal-header">
+      <h3>Chat Mila Vola</h3>
+      <button class="modal-close-btn" id="closeModal">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div id="newMessageNotification" class="new-message-notification">
+      Vous avez un nouveau message!
+    </div>
+    
+    <div class="modal-chat-box" id="modalChatBox"></div>
+    
+    <div class="modal-input-container">
+      <input type="text" class="modal-message-input" id="modalMessageInput" placeholder="Ampidiro ny hafatra..." />
+      <button class="send-btn" id="sendMessageBtn">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Overlay pour fermer la modal -->
+  <div class="modal-overlay" id="modalOverlay"></div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore-compat.js"></script>
+  
+  <script>
+    // Configuration Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAC-P6WFH1kqfYQi3PdCWpy4LSUqvtX_vo",
+      authDomain: "mila-vola.firebaseapp.com",
+      projectId: "mila-vola",
+      storageBucket: "mila-vola.appspot.com",
+      messagingSenderId: "690624768352",
+      appId: "1:690624768352:web:668994ef2664c5b99dd605",
+      measurementId: "G-C3FZTKQHFP"
+    };
+
+    // Initialiser Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Éléments DOM
+    const chatIcon = document.getElementById("chatIcon");
+    const messageBadge = document.getElementById("messageBadge");
+    const chatModal = document.getElementById("chatModal");
+    const closeModal = document.getElementById("closeModal");
+    const modalChatBox = document.getElementById("modalChatBox");
+    const modalMessageInput = document.getElementById("modalMessageInput");
+    const modalOverlay = document.getElementById("modalOverlay");
+    const newMessageNotification = document.getElementById("newMessageNotification");
+    const sendMessageBtn = document.getElementById("sendMessageBtn");
+    
+    let unreadCount = 0;
+    let modalOpen = false;
+    let userName = "";
+    
+    // Demander le nom d'utilisateur
+    function getUserName() {
+      userName = localStorage.getItem('chatUserName');
+      
+      if (!userName) {
+        userName = prompt("Ampidiro ny anaranao:");
+        if (userName) {
+          localStorage.setItem('chatUserName', userName);
+        } else {
+          userName = "Mpampiasa";
+        }
+      }
+    }
+    
+    // Ajouter un message dans la modal
+    function addMessageToModal(sender, message, time, isReceived) {
+      const msg = document.createElement("div");
+      msg.className = `message ${isReceived ? 'received' : 'sent'}`;
+      
+      msg.innerHTML = `
+        <span class="sender">${sender}</span>
+        <div class="content">${message}</div>
+        <div class="time">${time}</div>
+      `;
+      
+      modalChatBox.appendChild(msg);
+      modalChatBox.scrollTop = modalChatBox.scrollHeight;
+    }
+    
+    // Ouvrir la modal au clic sur l'icône
+    chatIcon.addEventListener("click", () => {
+      chatModal.classList.add("open");
+      modalOverlay.classList.add("active");
+      modalOpen = true;
+      
+      // Réinitialiser le compteur de messages non lus
+      unreadCount = 0;
+      updateBadge();
+      
+      // Cacher la notification
+      newMessageNotification.style.display = "none";
+    });
+    
+    // Fermer la modal
+    closeModal.addEventListener("click", closeChatModal);
+    modalOverlay.addEventListener("click", closeChatModal);
+    
+    function closeChatModal() {
+      chatModal.classList.remove("open");
+      modalOverlay.classList.remove("active");
+      modalOpen = false;
+    }
+    
+    // Mettre à jour le badge de notification
+    function updateBadge() {
+      messageBadge.textContent = unreadCount;
+      
+      if (unreadCount > 0) {
+        messageBadge.style.display = "flex";
+        messageBadge.classList.add("bounce");
+        setTimeout(() => {
+          messageBadge.classList.remove("bounce");
+        }, 800);
+      } else {
+        messageBadge.style.display = "none";
+      }
+    }
+    
+    // Envoyer un message à Firebase
+    async function sendMessage() {
+      const message = modalMessageInput.value;
+      if (!message.trim()) return;
+      
+      // Ajouter le message à Firebase
+      try {
+        await db.collection("chatMessages").add({
+          sender: userName,
+          receiver: "admin",
+          message: message,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        modalMessageInput.value = "";
+      } catch (error) {
+        console.error("Erreur lors de l'envoi du message:", error);
+      }
+    }
+    
+    // Envoyer avec le bouton
+    sendMessageBtn.addEventListener("click", sendMessage);
+    
+    // Envoyer avec la touche Entrée
+    modalMessageInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") sendMessage();
+    });
+    
+    // Écouter les nouveaux messages
+    function setupMessageListener() {
+      db.collection("chatMessages")
+        .orderBy("timestamp")
+        .onSnapshot((snapshot) => {
+          snapshot.docChanges().forEach((change) => {
+            if (change.type === "added") {
+              const data = change.doc.data();
+              
+              // Formater la date
+              const date = data.timestamp ? data.timestamp.toDate() : new Date();
+              const timeString = `${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+              
+              // Afficher le message dans la modale
+              addMessageToModal(
+                data.sender, 
+                data.message, 
+                timeString, 
+                data.sender !== userName
+              );
+              
+              // Si c'est un message de l'admin et que la modale est fermée
+              if (data.sender !== userName && !modalOpen) {
+                unreadCount++;
+                updateBadge();
+                
+                // Jouer un son de notification
+                playNotificationSound();
+              } 
+              // Si c'est un message de l'admin et que la modale est ouverte
+              else if (data.sender !== userName && modalOpen) {
+                // Afficher la notification dans la modale
+                newMessageNotification.style.display = "block";
+                
+                // Cacher après 5 secondes
+                setTimeout(() => {
+                  newMessageNotification.style.display = "none";
+                }, 5000);
+              }
+            }
+          });
+        });
+    }
+    
+    // Jouer un son de notification
+    function playNotificationSound() {
+      const audio = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-bell-notification-933.mp3");
+      audio.play().catch(e => console.log("Audio play error:", e));
+    }
+    
+    // Initialiser l'application
+    function initApp() {
+      getUserName();
+      setupMessageListener();
+    }
+    
+    // Démarrer l'application
+    window.addEventListener("DOMContentLoaded", initApp);
+  </script>
+</body>
+</html>
+
