@@ -35,6 +35,7 @@
       --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       --whatsapp: #25D366;
       --whatsapp-dark: #128C7E;
+      --reactivate: #FF6B00;
     }
     
     * {
@@ -259,6 +260,16 @@
     
     .btn-withdraw:hover {
       background: #e11d74;
+      color: white;
+    }
+    
+    .btn-reactivate {
+      background: var(--reactivate);
+      color: white;
+    }
+    
+    .btn-reactivate:hover {
+      background: #e05a00;
       color: white;
     }
     
@@ -910,6 +921,11 @@
       color: #f44336;
     }
     
+    .badge-inactive {
+      background: #e0e0e0;
+      color: #616161;
+    }
+    
     .history-section {
       margin-bottom: 2.5rem;
     }
@@ -925,6 +941,71 @@
       text-align: center;
       margin-top: 1rem;
       font-size: 0.9rem;
+    }
+    
+    .publication-stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: #f8f9fc;
+      border-radius: 10px;
+    }
+    
+    .stat-item-pub {
+      text-align: center;
+      flex: 1;
+    }
+    
+    .stat-number-pub {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .stat-label-pub {
+      font-size: 0.8rem;
+      color: var(--gray-600);
+    }
+    
+    /* Styles pour la méthode PAYEER */
+    .payeer-container {
+      background: var(--primary-light);
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      margin: 1rem 0;
+      border: 1px solid var(--gray-300);
+      display: none;
+    }
+    
+    .copyable-input {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .copyable-input input {
+      flex: 1;
+      border-radius: 8px 0 0 8px;
+      border: 1px solid var(--gray-300);
+      padding: 0.65rem;
+      font-weight: 600;
+    }
+    
+    .copyable-input button {
+      border-radius: 0 8px 8px 0;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0 1rem;
+    }
+    
+    .deposit-info {
+      background: #fff8e1;
+      border-left: 4px solid #ffb300;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-top: 1rem;
     }
     
     @media (max-width: 768px) {
@@ -962,6 +1043,11 @@
       
       .whatsapp-input-group {
         flex-direction: column;
+      }
+      
+      .publication-stats {
+        flex-direction: column;
+        gap: 0.5rem;
       }
     }
     
@@ -1117,8 +1203,8 @@
             <thead>
               <tr>
                 <th>Nom</th>
+                <th>Téléphone</th>
                 <th>Montant</th>
-                <th>Frais</th>
                 <th>Date</th>
                 <th>Actions</th>
               </tr>
@@ -1219,8 +1305,8 @@
             
             <div class="row">
               <div class="col-md-6 mb-3">
-                <label class="form-label">Budget (≥ 10Ar)</label>
-                <input id="pubBudget" type="number" class="form-control" placeholder="Ex: 100" required>
+                <label class="form-label">Budget par participant (≥ 5Ar)</label>
+                <input id="pubBudgetPerParticipant" type="number" class="form-control" placeholder="Ex: 5" min="5" required>
               </div>
               <div class="col-md-6 mb-3">
                 <label class="form-label">Type de tâche</label>
@@ -1413,17 +1499,36 @@
             </div>
             <div class="modal-body">
               <div class="mb-3">
-                <label class="form-label">Montant (≥ 5000 Ar) 1.3$</label>
-                <input id="depositAmount" type="number" class="form-control" placeholder="Ex: 10000" required>
+                <label class="form-label">Montant (≥ 2000 Ar)</label>
+                <input id="depositAmount" type="number" class="form-control" placeholder="Ex: 2000" min="2000" required>
               </div>
               <div class="mb-3">
                 <label class="form-label">Méthode de Paiement</label>
                 <select id="depositMethod" class="form-select" required>
                   <option value="">Sélectionnez une méthode</option>
-                  <option value="P1132657024">P1132657024</option>
-                  <option value="Orange Money"></option>
-                  <option value="Airtel Money"></option>
+                  <option value="PAYEER">PAYEER</option>
+                  <option value="Orange Money">Orange Money</option>
+                  <option value="Airtel Money">Airtel Money</option>
                 </select>
+              </div>
+              
+              <!-- Container pour PAYEER -->
+              <div id="payeerContainer" class="payeer-container">
+                <h6><i class="fas fa-wallet me-2"></i>Compte PAYEER</h6>
+                <p>Utilisez ce numéro de compte pour effectuer votre dépôt :</p>
+                
+                <div class="copyable-input">
+                  <input type="text" id="payeerAccount" value="P1132657024" readonly>
+                  <button type="button" class="btn btn-primary" onclick="copyPayeerAccount()">
+                    <i class="fas fa-copy"></i>
+                  </button>
+                </div>
+                
+                <div class="deposit-info">
+                  <p><i class="fas fa-info-circle me-2"></i>Après avoir effectué le paiement, envoyez la preuve de paiement par WhatsApp à :</p>
+                  <p class="text-center fw-bold">+261384557584</p>
+                  <p class="small">Capture d'écran du paiement requis avant de soumettre ce formulaire</p>
+                </div>
               </div>
             </div>
             <div class="modal-footer">
@@ -1452,8 +1557,8 @@
                 <input id="withdrawPhone" type="tel" class="form-control" placeholder="Votre numéro" required>
               </div>
               <div class="mb-3">
-                <label class="form-label">Montant (≥ 1000 Ar)</label>
-                <input id="withdrawAmount" type="number" class="form-control" placeholder="Ex: 20000" required>
+                <label class="form-label">Montant (≥ 500 Ar)</label>
+                <input id="withdrawAmount" type="number" class="form-control" placeholder="Ex: 500" min="500" required>
                 <div class="form-text">Frais: 10% du montant</div>
                 <div class="form-text text-danger">Attention: Seul le solde de gains peut être retiré</div>
               </div>
@@ -1588,6 +1693,8 @@
     const taskTypeSelect = document.getElementById('taskType');
     const socialMediaContainer = document.getElementById('socialMediaContainer');
     const saveWhatsAppBtn = document.getElementById('saveWhatsAppBtn');
+    const depositMethodSelect = document.getElementById('depositMethod');
+    const payeerContainer = document.getElementById('payeerContainer');
 
     // Gestion du type de tâche
     taskTypeSelect.addEventListener('change', function() {
@@ -1595,6 +1702,15 @@
         socialMediaContainer.style.display = 'block';
       } else {
         socialMediaContainer.style.display = 'none';
+      }
+    });
+
+    // Gestion de la méthode de dépôt
+    depositMethodSelect.addEventListener('change', function() {
+      if (this.value === 'PAYEER') {
+        payeerContainer.style.display = 'block';
+      } else {
+        payeerContainer.style.display = 'none';
       }
     });
 
@@ -1769,7 +1885,7 @@
       const montant = parseFloat(document.getElementById("depositAmount").value);
       const method = document.getElementById("depositMethod").value;
       
-      if (montant >= 5000 && method) {
+      if (montant >= 2000 && method) {
         try {
           await addDoc(collection(db, "depot_requests"), {
             userId, userName, montant, method,
@@ -1784,7 +1900,7 @@
           showNotification("Erreur lors du dépôt: " + error.message, "danger");
         }
       } else {
-        showNotification("Ampidiro araka ny tokony ho izy ny vola (min 5000 Ar) sy fomba fandoavana.", "warning");
+        showNotification("Ampidiro araka ny tokony ho izy ny vola (min 2000 Ar) sy fomba fandoavana.", "warning");
       }
     });
 
@@ -1805,7 +1921,7 @@
           return;
         }
         
-        if (montant >= 1000) {
+        if (montant >= 500) {
           const frais = montant * 0.1;
           await addDoc(collection(db, "retrait_requests"), {
             userId, userName, nom, phone, montant, frais,
@@ -1817,7 +1933,7 @@
           e.target.reset();
           bootstrap.Modal.getInstance(document.getElementById('withdrawModal')).hide();
         } else {
-          showNotification("Tsara indrindra ny ≥ 10000 Ar", "warning");
+          showNotification("Tsara indrindra ny ≥ 500 Ar", "warning");
         }
       } catch (error) {
         showNotification("Erreur lors du retrait: " + error.message, "danger");
@@ -1882,6 +1998,9 @@
           let typeBadge = '';
           let borderClass = '';
           
+          // Récupérer le budget (compatibilité avec ancienne version)
+          const budget = d.budgetPerParticipant || d.budget || 0;
+          
           if (d.taskType === 'social') {
             switch(d.socialMedia) {
               case 'facebook':
@@ -1915,7 +2034,7 @@
             <div class="task-card card ${borderClass}">
               <div class="card-body">
                 ${typeBadge}
-                <span class="task-badge">${d.budget} Ar</span>
+                <span class="task-badge">${budget} Ar</span>
                 <h6 class="card-title">${icon} ${d.description}</h6>
                 <small class="d-block text-muted mb-2">Conditions: ${d.cond || 'Aucune'}</small>
                 <div class="small mt-2">ID: ${taskId.substring(0,8)}...</div>
@@ -2051,6 +2170,17 @@
           
           let icon = '';
           let typeText = '';
+          let statusBadge = '';
+          
+          if (d.status === 'active') {
+            statusBadge = '<span class="badge bg-success">Active</span>';
+          } else {
+            statusBadge = '<span class="badge bg-secondary">Inactive</span>';
+          }
+          
+          // Récupérer le budget (compatibilité avec ancienne version)
+          const budget = d.budgetPerParticipant || d.budget || 0;
+          const completedCount = d.completedCount || 0;
           
           if (d.taskType === 'social') {
             switch(d.socialMedia) {
@@ -2081,16 +2211,32 @@
               <div class="card-body">
                 <h6>${icon} ${d.description}</h6>
                 <div class="d-flex justify-content-between align-items-center mt-2">
-                  <span class="badge bg-warning">${d.budget} Ar</span>
-                  <span class="badge bg-success">Active</span>
+                  <span class="badge bg-warning">${budget} Ar/part</span>
+                  ${statusBadge}
                 </div>
                 <div class="mt-2 small">${typeText}</div>
                 <div class="mt-2 small">WhatsApp: ${d.whatsapp || 'Non configuré'}</div>
+                <div class="publication-stats">
+                  <div class="stat-item-pub">
+                    <div class="stat-number-pub">${completedCount}</div>
+                    <div class="stat-label-pub">Participants</div>
+                  </div>
+                  <div class="stat-item-pub">
+                    <div class="stat-number-pub">${completedCount * budget} Ar</div>
+                    <div class="stat-label-pub">Dépensé</div>
+                  </div>
+                </div>
                 <div class="admin-task-id" onclick="copyToClipboard('${taskId}')">ID: ${taskId.substring(0,8)}...</div>
                 <div class="mt-2">
                   <a href="${d.url}" target="_blank" class="btn btn-sm btn-outline-primary">
                     <i class="fas fa-external-link-alt me-1"></i> Voir la tâche
                   </a>
+                  ${d.status === 'inactive' ? 
+                    `<button class="btn btn-reactivate btn-sm mt-2" onclick="reactivateTask('${taskId}')">
+                      <i class="fas fa-sync-alt me-1"></i> Réactiver
+                    </button>` 
+                    : ''
+                  }
                 </div>
               </div>
             </div>
@@ -2110,14 +2256,14 @@
     document.getElementById('publishForm').addEventListener('submit', async e => {
       e.preventDefault();
       const desc = document.getElementById('pubDescription').value;
-      const budget = parseInt(document.getElementById('pubBudget').value);
+      const budgetPerParticipant = parseInt(document.getElementById('pubBudgetPerParticipant').value);
       const url = document.getElementById('pubURL').value;
       const cond = document.getElementById('pubConditions').value;
       const taskType = document.getElementById('taskType').value;
       const socialMedia = document.getElementById('socialMedia').value;
       
-      if (budget < 10) {
-        showNotification('Budget ≥ 50 Ar', 'warning');
+      if (budgetPerParticipant < 5) {
+        showNotification('Budget ≥ 5 Ar par participant', 'warning');
         return;
       }
       
@@ -2137,34 +2283,29 @@
         const userSnap = await getDoc(userRef);
         const userData = userSnap.data();
         
-        if (userData.depot < budget) {
-          showNotification('Solde de dépôt insuffisant', 'warning');
+        if (userData.depot < budgetPerParticipant) {
+          showNotification('Solde de dépôt insuffisant pour au moins un participant', 'warning');
           return;
         }
         
-        // Déduire le budget du solde de dépôt
-        await updateDoc(userRef, {
-          depot: userData.depot - budget
-        });
-        
-        // Créer la tâche
+        // Créer la tâche sans déduire le solde
         await addDoc(collection(db,'tasks'),{
           publisher: userId,
           publisherName: userName,
           description: desc,
-          budget,
+          budgetPerParticipant: budgetPerParticipant,
           url,
           cond,
           taskType,
           socialMedia: taskType === 'social' ? socialMedia : '',
           status: 'active',
           whatsapp: userWhatsApp,
-          createdAt: serverTimestamp()
+          createdAt: serverTimestamp(),
+          completedCount: 0
         });
         
-        showNotification('Asa navoaka!', 'success');
+        showNotification('Asa navoaka! Le solde ne sera déduit que lorsque les participants enverront des preuves.', 'success');
         loadPublications();
-        loadBalances();
         
         // Reset form
         e.target.reset();
@@ -2192,7 +2333,7 @@
         if (snap.empty) {
           c.innerHTML = `
             <tr>
-              <td colspan="5" class="text-center py-4">
+              <td colspan="${type === 'retrait' ? 5 : type === 'depot' ? 5 : 4}" class="text-center py-4">
                 <div class="empty-state py-0">
                   <i class="fas fa-inbox"></i>
                   <p>Aucune demande en attente</p>
@@ -2226,8 +2367,8 @@
           } else if (type === 'retrait') {
             el.innerHTML = `
               <td>${d.nom || d.userName || d.userId}</td>
+              <td>${d.phone || 'Non spécifié'}</td>
               <td>${d.montant} Ar</td>
-              <td>${d.frais || 0} Ar</td>
               <td>${date}</td>
               <td class="admin-actions">
                 <button class='btn btn-success btn-sm me-1' onclick='confirmAction("${col}","${docSnap.id}","${type}",${JSON.stringify(d)})'>
@@ -2277,7 +2418,7 @@
                 <div class="empty-state py-0">
                   <i class="fas fa-inbox"></i>
                   <p>Aucun historique de dépôt</p>
-                </div>
+                  </div>
               </td>
             </tr>
           `;
@@ -2410,9 +2551,11 @@
             throw new Error('Tâche introuvable');
           }
           const taskData = taskSnap.data();
-          const taskBudget = taskData.budget;
           
-          // Mettre à jour le solde de gains
+          // Compatibilité avec ancienne version
+          const taskBudget = taskData.budgetPerParticipant || taskData.budget || 0;
+          
+          // Mettre à jour le solde de gains du participant
           await updateDoc(uRef, {gain: u.gain + taskBudget});
           
           // Ajouter la tâche complétée à la liste de l'utilisateur
@@ -2422,11 +2565,38 @@
             await updateDoc(uRef, {completedTasks});
           }
           
+          // Mettre à jour la tâche : incrémenter le compteur de participants
+          const newCount = (taskData.completedCount || 0) + 1;
+          await updateDoc(taskRef, {
+            completedCount: newCount
+          });
+          
+          // Déduire le montant du dépôt du publisher
+          const publisherRef = doc(db, 'users', taskData.publisher);
+          const publisherSnap = await getDoc(publisherRef);
+          const publisherData = publisherSnap.data();
+          
+          await updateDoc(publisherRef, {
+            depot: publisherData.depot - taskBudget
+          });
+          
+          // Vérifier si le solde est épuisé et désactiver la tâche si nécessaire
+          const updatedPublisherSnap = await getDoc(publisherRef);
+          const updatedPublisherData = updatedPublisherSnap.data();
+          
+          if (updatedPublisherData.depot < taskBudget) {
+            await updateDoc(taskRef, {
+              status: 'inactive'
+            });
+            showNotification('Le solde de dépôt est épuisé pour cette tâche. Tâche désactivée.', 'info');
+          }
+          
           showNotification(`Tâche confirmée! ${taskBudget} Ar crédités.`, 'success');
         }
         
         loadAdminPanel();
         loadBalances();
+        loadPublications();
       } catch (error) {
         showNotification("Erreur lors de la confirmation: " + error.message, 'danger');
       }
@@ -2439,6 +2609,40 @@
         loadAdminPanel();
       } catch (error) {
         showNotification("Erreur lors de l'annulation: " + error.message, 'danger');
+      }
+    };
+
+    // Fonction pour réactiver une tâche
+    window.reactivateTask = async (taskId) => {
+      try {
+        const taskRef = doc(db, "tasks", taskId);
+        const taskSnap = await getDoc(taskRef);
+        if (!taskSnap.exists()) {
+          showNotification("Tâche introuvable", "danger");
+          return;
+        }
+        
+        const taskData = taskSnap.data();
+        const userRef = doc(db, "users", userId);
+        const userSnap = await getDoc(userRef);
+        const userData = userSnap.data();
+        
+        // Compatibilité avec ancienne version
+        const taskBudget = taskData.budgetPerParticipant || taskData.budget || 0;
+        
+        if (userData.depot < taskBudget) {
+          showNotification("Solde de dépôt insuffisant pour réactiver cette tâche", "warning");
+          return;
+        }
+        
+        await updateDoc(taskRef, {
+          status: "active"
+        });
+        
+        showNotification("Tâche réactivée avec succès!", "success");
+        loadPublications();
+      } catch (error) {
+        showNotification("Erreur lors de la réactivation: " + error.message, "danger");
       }
     };
 
@@ -2466,6 +2670,13 @@
       link.select();
       document.execCommand('copy');
       showNotification('Lien copié dans le presse-papiers!', 'success');
+    }
+    
+    function copyPayeerAccount() {
+      const payeerAccount = document.getElementById('payeerAccount');
+      payeerAccount.select();
+      document.execCommand('copy');
+      showNotification('Compte PAYEER copié dans le presse-papiers!', 'success');
     }
 
     function shareReferral() {
@@ -2515,757 +2726,3 @@
   </script>
 </body>
 </html>
-
-
-<!DOCTYPE html>
-<html lang="mg">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chat Mila Vola</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    body {
-      font-family: 'Segoe UI', 'Roboto', sans-serif;
-      min-height: 100vh;
-      margin: 0;
-      background: linear-gradient(135deg, #1a2a6c, #2a4365);
-      color: #333;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-    }
-    
-    body::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at top right, rgba(106, 17, 203, 0.15), transparent 70%),
-                  radial-gradient(circle at bottom left, rgba(52, 152, 219, 0.15), transparent 70%);
-      z-index: -1;
-    }
-    
-    header {
-      background: linear-gradient(to right, #4A00E0, #8E2DE2);
-      color: white;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    }
-    
-    .header-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .logo i {
-      font-size: 2.5rem;
-      color: #FFD700;
-    }
-    
-    .logo h1 {
-      font-size: 1.8rem;
-      font-weight: 600;
-    }
-    
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 20px;
-    }
-    
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      padding: 8px 15px;
-      border-radius: 20px;
-      transition: background 0.3s;
-    }
-    
-    nav a:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-    
-    .hero {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 0 20px;
-      text-align: center;
-      color: white;
-    }
-    
-    .hero h2 {
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-    
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 800px;
-      margin: 0 auto 40px;
-      line-height: 1.6;
-    }
-    
-    .features {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-      margin: 60px 0;
-    }
-    
-    .feature-card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 30px;
-      width: 280px;
-      text-align: center;
-      transition: transform 0.3s;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .feature-card:hover {
-      transform: translateY(-10px);
-      background: rgba(255, 255, 255, 0.15);
-    }
-    
-    .feature-card i {
-      font-size: 3rem;
-      color: #8E2DE2;
-      margin-bottom: 20px;
-    }
-    
-    .feature-card h3 {
-      color: white;
-      margin-bottom: 15px;
-      font-size: 1.4rem;
-    }
-    
-    .feature-card p {
-      color: rgba(255, 255, 255, 0.85);
-      font-size: 1rem;
-    }
-    
-    .how-it-works {
-      max-width: 1000px;
-      margin: 60px auto;
-      padding: 0 20px;
-      color: white;
-      text-align: center;
-    }
-    
-    .how-it-works h2 {
-      font-size: 2.2rem;
-      margin-bottom: 40px;
-    }
-    
-    .steps {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 30px;
-    }
-    
-    .step {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 25px;
-      width: 280px;
-      text-align: center;
-      position: relative;
-    }
-    
-    .step-number {
-      position: absolute;
-      top: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(to right, #4A00E0, #8E2DE2);
-      color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 1.2rem;
-    }
-    
-    .step h3 {
-      margin: 15px 0;
-      font-size: 1.3rem;
-    }
-    
-    .step p {
-      color: rgba(255, 255, 255, 0.85);
-    }
-    
-    footer {
-      background: rgba(0, 0, 0, 0.2);
-      color: rgba(255, 255, 255, 0.7);
-      text-align: center;
-      padding: 20px;
-      margin-top: auto;
-    }
-    
-    /* Icône flottante */
-    .floating-chat-icon {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      background: linear-gradient(to right, #4A00E0, #8E2DE2);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 30px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-      cursor: pointer;
-      z-index: 1000;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    
-    .floating-chat-icon:hover {
-      transform: scale(1.1);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-    }
-    
-    .floating-chat-icon .badge {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background: linear-gradient(to right, #ff416c, #ff4b2b);
-      color: white;
-      border-radius: 50%;
-      width: 25px;
-      height: 25px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      font-weight: bold;
-      box-shadow: 0 3px 8px rgba(255, 75, 43, 0.4);
-      z-index: 10;
-    }
-    
-    /* Modal de chat */
-    .chat-modal {
-      position: fixed;
-      bottom: 115px;
-      right: 30px;
-      width: 350px;
-      height: 450px;
-      background: rgba(247, 249, 252, 0.95);
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      display: flex;
-      flex-direction: column;
-      z-index: 999;
-      transform: translateY(20px);
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      overflow: hidden;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-    
-    .chat-modal.open {
-      transform: translateY(0);
-      opacity: 1;
-      pointer-events: all;
-    }
-    
-    .chat-modal-header {
-      background: linear-gradient(to right, #4A00E0, #8E2DE2);
-      color: white;
-      padding: 15px 20px;
-      border-radius: 20px 20px 0 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .chat-modal-header h3 {
-      margin: 0;
-      font-weight: 600;
-      font-size: 1.3rem;
-    }
-    
-    .modal-close-btn {
-      background: transparent;
-      border: none;
-      color: white;
-      font-size: 1.5rem;
-      cursor: pointer;
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.3s;
-    }
-    
-    .modal-close-btn:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-    
-    .modal-chat-box {
-      flex: 1;
-      padding: 15px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      background: rgba(245, 247, 250, 0.8);
-    }
-    
-    .modal-input-container {
-      padding: 12px;
-      background: white;
-      border-top: 1px solid #e0e0e0;
-      display: flex;
-    }
-    
-    .modal-message-input {
-      flex: 1;
-      padding: 12px 15px;
-      border: none;
-      border-radius: 25px;
-      font-size: 0.9rem;
-      background: #f5f7ff;
-      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.06);
-    }
-    
-    .modal-message-input:focus {
-      outline: none;
-      box-shadow: inset 0 2px 10px rgba(74, 0, 224, 0.1);
-    }
-    
-    .send-btn {
-      background: linear-gradient(to right, #4A00E0, #8E2DE2);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 45px;
-      height: 45px;
-      margin-left: 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      transition: transform 0.3s;
-    }
-    
-    .send-btn:hover {
-      transform: scale(1.1);
-    }
-    
-    /* Style pour les messages */
-    .message {
-      max-width: 80%;
-      padding: 12px 16px;
-      border-radius: 18px;
-      position: relative;
-      animation: fadeIn 0.4s;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-      line-height: 1.4;
-      font-size: 1rem;
-    }
-    
-    .message.sent {
-      align-self: flex-end;
-      background: linear-gradient(to right, #4A00E0, #8E2DE2);
-      color: white;
-      border-bottom-right-radius: 5px;
-    }
-    
-    .message.received {
-      align-self: flex-start;
-      background: white;
-      color: #333;
-      border: 1px solid #eaeaea;
-      border-bottom-left-radius: 5px;
-    }
-    
-    .message .sender {
-      font-weight: 600;
-      font-size: 0.8rem;
-      margin-bottom: 4px;
-      display: block;
-    }
-    
-    .message.sent .sender {
-      color: rgba(255, 255, 255, 0.85);
-    }
-    
-    .message.received .sender {
-      color: #7e57c2;
-    }
-    
-    .message .time {
-      font-size: 0.7rem;
-      text-align: right;
-      margin-top: 5px;
-      opacity: 0.7;
-    }
-    
-    .message.sent .time {
-      color: rgba(255, 255, 255, 0.7);
-    }
-    
-    .message.received .time {
-      color: #777;
-    }
-    
-    .new-message-notification {
-      background: linear-gradient(to right, #4A00E0, #8E2DE2);
-      color: white;
-      text-align: center;
-      padding: 10px;
-      font-size: 0.9rem;
-      animation: fadeIn 0.5s;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      display: none;
-    }
-    
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-      40% {transform: translateY(-15px);}
-      60% {transform: translateY(-7px);}
-    }
-    
-    .bounce {
-      animation: bounce 0.8s;
-    }
-    
-    /* Overlay */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 998;
-      display: none;
-    }
-    
-    .modal-overlay.active {
-      display: block;
-    }
-    
-    /* Scrollbar */
-    .modal-chat-box::-webkit-scrollbar {
-      width: 6px;
-    }
-    
-    .modal-chat-box::-webkit-scrollbar-track {
-      background: rgba(245, 247, 250, 0.5);
-      border-radius: 3px;
-    }
-    
-    .modal-chat-box::-webkit-scrollbar-thumb {
-      background: linear-gradient(to bottom, #8E2DE2, #4A00E0);
-      border-radius: 3px;
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-      .header-content {
-        flex-direction: column;
-        gap: 15px;
-      }
-      
-      nav ul {
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      
-      .feature-card, .step {
-        width: 100%;
-        max-width: 350px;
-      }
-      
-      .chat-modal {
-        width: 90%;
-        right: 5%;
-        height: 70vh;
-        bottom: 100px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="header-content">
-      <div class="logo">
-        <i class="fas fa-comments"></i>
-        <h1>Mila Vola</h1>
-      
-  <footer>
-    <p>Chat Mila Vola &copy; 2023 - Tous droits réservés</p>
-  </footer>
-  
-  <!-- Icône flottante avec badge -->
-  <div class="floating-chat-icon" id="chatIcon">
-    <i class="fas fa-comments"></i>
-    <div class="badge" id="messageBadge">0</div>
-  </div>
-  
-  <!-- Modal de chat -->
-  <div class="chat-modal" id="chatModal">
-    <div class="chat-modal-header">
-      <h3>Chat Mila Vola</h3>
-      <button class="modal-close-btn" id="closeModal">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    
-    <div id="newMessageNotification" class="new-message-notification">
-      Vous avez un nouveau message!
-    </div>
-    
-    <div class="modal-chat-box" id="modalChatBox"></div>
-    
-    <div class="modal-input-container">
-      <input type="text" class="modal-message-input" id="modalMessageInput" placeholder="Ampidiro ny hafatra..." />
-      <button class="send-btn" id="sendMessageBtn">
-        <i class="fas fa-paper-plane"></i>
-      </button>
-    </div>
-  </div>
-  
-  <!-- Overlay pour fermer la modal -->
-  <div class="modal-overlay" id="modalOverlay"></div>
-
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore-compat.js"></script>
-  
-  <script>
-    // Configuration Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyAC-P6WFH1kqfYQi3PdCWpy4LSUqvtX_vo",
-      authDomain: "mila-vola.firebaseapp.com",
-      projectId: "mila-vola",
-      storageBucket: "mila-vola.appspot.com",
-      messagingSenderId: "690624768352",
-      appId: "1:690624768352:web:668994ef2664c5b99dd605",
-      measurementId: "G-C3FZTKQHFP"
-    };
-
-    // Initialiser Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    // Éléments DOM
-    const chatIcon = document.getElementById("chatIcon");
-    const messageBadge = document.getElementById("messageBadge");
-    const chatModal = document.getElementById("chatModal");
-    const closeModal = document.getElementById("closeModal");
-    const modalChatBox = document.getElementById("modalChatBox");
-    const modalMessageInput = document.getElementById("modalMessageInput");
-    const modalOverlay = document.getElementById("modalOverlay");
-    const newMessageNotification = document.getElementById("newMessageNotification");
-    const sendMessageBtn = document.getElementById("sendMessageBtn");
-    
-    let unreadCount = 0;
-    let modalOpen = false;
-    let userName = "";
-    
-    // Demander le nom d'utilisateur
-    function getUserName() {
-      userName = localStorage.getItem('chatUserName');
-      
-      if (!userName) {
-        userName = prompt("Ampidiro ny anaranao:");
-        if (userName) {
-          localStorage.setItem('chatUserName', userName);
-        } else {
-          userName = "Mpampiasa";
-        }
-      }
-    }
-    
-    // Ajouter un message dans la modal
-    function addMessageToModal(sender, message, time, isReceived) {
-      const msg = document.createElement("div");
-      msg.className = `message ${isReceived ? 'received' : 'sent'}`;
-      
-      msg.innerHTML = `
-        <span class="sender">${sender}</span>
-        <div class="content">${message}</div>
-        <div class="time">${time}</div>
-      `;
-      
-      modalChatBox.appendChild(msg);
-      modalChatBox.scrollTop = modalChatBox.scrollHeight;
-    }
-    
-    // Ouvrir la modal au clic sur l'icône
-    chatIcon.addEventListener("click", () => {
-      chatModal.classList.add("open");
-      modalOverlay.classList.add("active");
-      modalOpen = true;
-      
-      // Réinitialiser le compteur de messages non lus
-      unreadCount = 0;
-      updateBadge();
-      
-      // Cacher la notification
-      newMessageNotification.style.display = "none";
-    });
-    
-    // Fermer la modal
-    closeModal.addEventListener("click", closeChatModal);
-    modalOverlay.addEventListener("click", closeChatModal);
-    
-    function closeChatModal() {
-      chatModal.classList.remove("open");
-      modalOverlay.classList.remove("active");
-      modalOpen = false;
-    }
-    
-    // Mettre à jour le badge de notification
-    function updateBadge() {
-      messageBadge.textContent = unreadCount;
-      
-      if (unreadCount > 0) {
-        messageBadge.style.display = "flex";
-        messageBadge.classList.add("bounce");
-        setTimeout(() => {
-          messageBadge.classList.remove("bounce");
-        }, 800);
-      } else {
-        messageBadge.style.display = "none";
-      }
-    }
-    
-    // Envoyer un message à Firebase
-    async function sendMessage() {
-      const message = modalMessageInput.value;
-      if (!message.trim()) return;
-      
-      // Ajouter le message à Firebase
-      try {
-        await db.collection("chatMessages").add({
-          sender: userName,
-          receiver: "admin",
-          message: message,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        
-        modalMessageInput.value = "";
-      } catch (error) {
-        console.error("Erreur lors de l'envoi du message:", error);
-      }
-    }
-    
-    // Envoyer avec le bouton
-    sendMessageBtn.addEventListener("click", sendMessage);
-    
-    // Envoyer avec la touche Entrée
-    modalMessageInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") sendMessage();
-    });
-    
-    // Écouter les nouveaux messages
-    function setupMessageListener() {
-      db.collection("chatMessages")
-        .orderBy("timestamp")
-        .onSnapshot((snapshot) => {
-          snapshot.docChanges().forEach((change) => {
-            if (change.type === "added") {
-              const data = change.doc.data();
-              
-              // Formater la date
-              const date = data.timestamp ? data.timestamp.toDate() : new Date();
-              const timeString = `${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
-              
-              // Afficher le message dans la modale
-              addMessageToModal(
-                data.sender, 
-                data.message, 
-                timeString, 
-                data.sender !== userName
-              );
-              
-              // Si c'est un message de l'admin et que la modale est fermée
-              if (data.sender !== userName && !modalOpen) {
-                unreadCount++;
-                updateBadge();
-                
-                // Jouer un son de notification
-                playNotificationSound();
-              } 
-              // Si c'est un message de l'admin et que la modale est ouverte
-              else if (data.sender !== userName && modalOpen) {
-                // Afficher la notification dans la modale
-                newMessageNotification.style.display = "block";
-                
-                // Cacher après 5 secondes
-                setTimeout(() => {
-                  newMessageNotification.style.display = "none";
-                }, 5000);
-              }
-            }
-          });
-        });
-    }
-    
-    // Jouer un son de notification
-    function playNotificationSound() {
-      const audio = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-bell-notification-933.mp3");
-      audio.play().catch(e => console.log("Audio play error:", e));
-    }
-    
-    // Initialiser l'application
-    function initApp() {
-      getUserName();
-      setupMessageListener();
-    }
-    
-    // Démarrer l'application
-    window.addEventListener("DOMContentLoaded", initApp);
-  </script>
-</body>
-</html>
-
