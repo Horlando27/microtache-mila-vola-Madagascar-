@@ -1008,6 +1008,65 @@
       margin-top: 1rem;
     }
     
+    /* Nouveaux styles pour les tables */
+    .tasks-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 1.25rem;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      border: 1px solid var(--gray-200);
+    }
+    
+    .tasks-table th {
+      background: var(--primary);
+      color: white;
+      padding: 1rem;
+      text-align: left;
+      font-weight: 600;
+    }
+    
+    .tasks-table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    
+    .tasks-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .tasks-table tr:nth-child(even) {
+      background-color: var(--gray-100);
+    }
+    
+    .tasks-table tr:hover {
+      background-color: var(--primary-light);
+    }
+    
+    /* Barre de recherche admin */
+    .admin-search-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    
+    .admin-search-container input {
+      flex: 1;
+      border-radius: 10px;
+      padding: 0.75rem 1.25rem;
+      border: 1px solid var(--gray-300);
+    }
+    
+    .admin-search-container button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+    
     @media (max-width: 768px) {
       .section-card {
         padding: 1.5rem;
@@ -1031,7 +1090,7 @@
         font-size: 1.6rem;
       }
       
-      .admin-table, .history-table {
+      .admin-table, .history-table, .tasks-table {
         display: block;
         overflow-x: auto;
       }
@@ -1172,8 +1231,15 @@
       <!-- Admin Section -->
       <div id="adminSection" class="mb-5" style="display:none;">
         <h4 class="section-title"><i class="fas fa-cog me-2"></i>Admin Panel</h4>
+        
         <div class="admin-card">
           <h5 class="admin-header"><i class="fas fa-money-bill-wave me-2"></i>Demandes de Dépôt</h5>
+          <div class="admin-search-container">
+            <input type="text" id="searchDepot" class="form-control" placeholder="Rechercher par nom ou ID...">
+            <button class="btn btn-primary" onclick="filterAdminTable('depotList', 'searchDepot')">
+              <i class="fas fa-search me-1"></i> Hitady
+            </button>
+          </div>
           <table class="admin-table">
             <thead>
               <tr>
@@ -1199,6 +1265,12 @@
         
         <div class="admin-card">
           <h5 class="admin-header"><i class="fas fa-hand-holding-usd me-2"></i>Demandes de Retrait</h5>
+          <div class="admin-search-container">
+            <input type="text" id="searchRetrait" class="form-control" placeholder="Rechercher par nom ou ID...">
+            <button class="btn btn-primary" onclick="filterAdminTable('retraitList', 'searchRetrait')">
+              <i class="fas fa-search me-1"></i> Hitady
+            </button>
+          </div>
           <table class="admin-table">
             <thead>
               <tr>
@@ -1224,6 +1296,12 @@
         
         <div class="admin-card">
           <h5 class="admin-header"><i class="fas fa-check-circle me-2"></i>Soumissions de Preuves</h5>
+          <div class="admin-search-container">
+            <input type="text" id="searchProof" class="form-control" placeholder="Rechercher par nom ou ID...">
+            <button class="btn btn-primary" onclick="filterAdminTable('submissionList', 'searchProof')">
+              <i class="fas fa-search me-1"></i> Hitady
+            </button>
+          </div>
           <table class="admin-table">
             <thead>
               <tr>
@@ -1277,19 +1355,33 @@
         </div>
       </div>
 
-      <!-- Tasks Section -->
+      <!-- Tasks Section - Modifiée pour utiliser un tableau -->
       <div id="tasksSection" class="mb-5">
         <h4 class="section-title"><i class="fas fa-tasks me-2"></i>Asa</h4>
         <div class="alert alert-info">
           <i class="fas fa-info-circle me-2"></i>Complétez des tâches pour gagner de l'argent. Chaque tâche validée rapporte 50 Ar.
         </div>
-        <div id="taskList" class="row">
-          <div class="col-12">
-            <div class="empty-state">
-              <i class="fas fa-spinner fa-spin"></i>
-              <p>Chargement des tâches disponibles...</p>
-            </div>
-          </div>
+        <div class="table-responsive">
+          <table class="tasks-table">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Gains</th>
+                <th>Réseau social</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="taskList">
+              <tr>
+                <td colspan="4" class="text-center py-4">
+                  <div class="empty-state py-0">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Chargement des tâches disponibles...</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -1326,6 +1418,9 @@
                 <option value="twitter">Twitter</option>
                 <option value="instagram">Instagram</option>
                 <option value="telegram">Télégramme</option>
+                <option value="youtube">YouTube</option>
+                <option value="tiktok">TikTok</option>
+                <option value="linkedin">LinkedIn</option>
               </select>
             </div>
             
@@ -1336,7 +1431,7 @@
             
             <div class="mb-3">
               <label class="form-label">Conditions</label>
-              <textarea id="pubConditions" class="form-control" placeholder="Conditions à respecter" rows="2"></textarea>
+              <textarea id="pubConditions" class="form-control" placeholder="Conditions à respecter" rows="3"></textarea>
             </div>
             
             <button class="btn btn-primary btn-action">
@@ -1525,8 +1620,9 @@
                 </div>
                 
                 <div class="deposit-info">
-                  <p><i class="fas fa-info-circle me-2"></i>Après avoir effectué le paiement, envoyez la preuve de paiement par WhatsApp à :</p>
-                  <p class="text-center fw-bold">+261384557584</p>
+                  <p><i class="fas fa-info-circle me-2"></i>Après avoir effectué le paiement, envoyez la preuve de paiement sur Facebook à :</p>
+                  <p class="text-center fw-bold"><a href="https://www.facebook.com/profile.php?id=61578558871898" target="_blank">Envoyé la preuve 
+</a></p>
                   <p class="small">Capture d'écran du paiement requis avant de soumettre ce formulaire</p>
                 </div>
               </div>
@@ -1604,6 +1700,47 @@
               <button type="submit" class="btn btn-primary" style="background: var(--primary); border: none; padding: 0.65rem 1.25rem; font-weight: 600; border-radius: 10px;">Envoyer</button>
             </div>
           </form>
+        </div>
+      </div>
+      
+      <!-- Task Details Modal (Nouveau) -->
+      <div class="modal fade" id="taskDetailsModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header card-header-gradient">
+              <h5 class="modal-title"><i class="fas fa-tasks me-2"></i>Détails de la tâche</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="form-label">Description</label>
+                <p id="taskDescription" class="form-control-static"></p>
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label">Conditions</label>
+                <p id="taskConditions" class="form-control-static"></p>
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label">Gains</label>
+                <p id="taskGains" class="form-control-static"></p>
+              </div>
+              
+              <div class="mb-3">
+                <label class="form-label">Réseau social</label>
+                <p id="taskSocial" class="form-control-static"></p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <a href="#" id="taskAccessBtn" target="_blank" class="btn btn-primary">
+                <i class="fas fa-external-link-alt me-1"></i> Accéder à la tâche
+              </a>
+              <button class="btn btn-success" id="taskSendProofBtn">
+                <i class="fas fa-paper-plane me-1"></i> Envoyer preuve
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       
@@ -1971,17 +2108,18 @@
         
         if (snap.empty) {
           list.innerHTML = `
-            <div class="col-12">
-              <div class="empty-state">
-                <i class="fas fa-tasks"></i>
-                <p>Aucune tâche disponible pour le moment</p>
-              </div>
-            </div>
+            <tr>
+              <td colspan="4" class="text-center py-4">
+                <div class="empty-state py-0">
+                  <i class="fas fa-tasks"></i>
+                  <p>Aucune tâche disponible pour le moment</p>
+                </div>
+              </td>
+            </tr>
           `;
           return;
         }
         
-        list.innerHTML = '';
         snap.forEach(docSnap => {
           const d = docSnap.data();
           const taskId = docSnap.id;
@@ -1991,68 +2129,53 @@
           // Vérifier si l'utilisateur a une soumission en attente pour cette tâche
           const isPending = pendingSubmissions.has(taskId);
           
-          const el = document.createElement('div');
-          el.className = isCompleted ? 'col-md-4 mb-3 completed-task' : 'col-md-4 mb-3';
-          
-          let icon = '';
-          let typeBadge = '';
-          let borderClass = '';
-          
           // Récupérer le budget (compatibilité avec ancienne version)
           const budget = d.budgetPerParticipant || d.budget || 0;
+          
+          let socialText = '';
           
           if (d.taskType === 'social') {
             switch(d.socialMedia) {
               case 'facebook':
-                icon = '<i class="fab fa-facebook social-icon facebook"></i>';
-                typeBadge = '<span class="task-type-badge">Facebook</span>';
-                borderClass = 'social-task';
+                socialText = 'Facebook';
                 break;
               case 'twitter':
-                icon = '<i class="fab fa-twitter social-icon twitter"></i>';
-                typeBadge = '<span class="task-type-badge">Twitter</span>';
-                borderClass = 'social-task';
+                socialText = 'Twitter';
                 break;
               case 'instagram':
-                icon = '<i class="fab fa-instagram social-icon instagram"></i>';
-                typeBadge = '<span class="task-type-badge">Instagram</span>';
-                borderClass = 'social-task';
+                socialText = 'Instagram';
                 break;
               case 'telegram':
-                icon = '<i class="fab fa-telegram social-icon telegram"></i>';
-                typeBadge = '<span class="task-type-badge">Télégramme</span>';
-                borderClass = 'social-task';
+                socialText = 'Télégramme';
+                break;
+              case 'youtube':
+                socialText = 'YouTube';
+                break;
+              case 'tiktok':
+                socialText = 'TikTok';
+                break;
+              case 'linkedin':
+                socialText = 'LinkedIn';
                 break;
             }
           } else if (d.taskType === 'website') {
-            icon = '<i class="fas fa-globe social-icon website"></i>';
-            typeBadge = '<span class="task-type-badge">Inscription site</span>';
-            borderClass = 'website-task';
+            socialText = 'Site Web';
           }
           
+          const el = document.createElement('tr');
+          el.className = isCompleted ? 'completed-task' : '';
+          
           el.innerHTML = `
-            <div class="task-card card ${borderClass}">
-              <div class="card-body">
-                ${typeBadge}
-                <span class="task-badge">${budget} Ar</span>
-                <h6 class="card-title">${icon} ${d.description}</h6>
-                <small class="d-block text-muted mb-2">Conditions: ${d.cond || 'Aucune'}</small>
-                <div class="small mt-2">ID: ${taskId.substring(0,8)}...</div>
-                <div class="mt-2">
-                  <a href="${d.url}" target="_blank" class="btn btn-sm btn-outline-primary">
-                    <i class="fas fa-external-link-alt me-1"></i> Accéder à la tâche
-                  </a>
-                </div>
-                ${isCompleted ? '' : 
-                  (isPending ? 
-                    '<div class="pending-notification"><i class="fas fa-clock me-2"></i>En attente de vérification</div>' : 
-                    `<button class='btn btn-primary w-100 mt-3' onclick='openProofModal("${taskId}", "${d.whatsapp || ''}")'>
-                      <i class="fas fa-paper-plane me-1"></i> Envoyer preuve
-                    </button>`
-                  )
-                }
-              </div>
-            </div>
+            <td>${d.description}</td>
+            <td>${budget} Ar</td>
+            <td>${socialText}</td>
+            <td>
+              <button class="btn btn-sm btn-primary" onclick="showTaskDetails('${taskId}', '${d.whatsapp || ''}')">
+                <i class="fas fa-eye me-1"></i> Ouvrir
+              </button>
+              ${isCompleted ? '<span class="badge bg-success ms-2">Complétée</span>' : 
+                (isPending ? '<span class="badge bg-warning ms-2">En attente</span>' : '')}
+            </td>
           `;
           list.appendChild(el);
         });
@@ -2060,6 +2183,74 @@
         console.error("Error loading tasks:", error);
       }
     }
+
+    window.showTaskDetails = async (taskId, whatsapp) => {
+      try {
+        const taskRef = doc(db, "tasks", taskId);
+        const taskSnap = await getDoc(taskRef);
+        
+        if (taskSnap.exists()) {
+          const taskData = taskSnap.data();
+          
+          // Récupérer le budget (compatibilité avec ancienne version)
+          const budget = taskData.budgetPerParticipant || taskData.budget || 0;
+          
+          let socialText = '';
+          
+          if (taskData.taskType === 'social') {
+            switch(taskData.socialMedia) {
+              case 'facebook':
+                socialText = 'Facebook';
+                break;
+              case 'twitter':
+                socialText = 'Twitter';
+                break;
+              case 'instagram':
+                socialText = 'Instagram';
+                break;
+              case 'telegram':
+                socialText = 'Télégramme';
+                break;
+              case 'youtube':
+                socialText = 'YouTube';
+                break;
+              case 'tiktok':
+                socialText = 'TikTok';
+                break;
+              case 'linkedin':
+                socialText = 'LinkedIn';
+                break;
+            }
+          } else if (taskData.taskType === 'website') {
+            socialText = 'Site Web';
+          }
+          
+          // Remplir les détails de la tâche
+          document.getElementById('taskDescription').textContent = taskData.description;
+          document.getElementById('taskConditions').textContent = taskData.cond || 'Aucune condition spécifique';
+          document.getElementById('taskGains').textContent = `${budget} Ar`;
+          document.getElementById('taskSocial').textContent = socialText;
+          
+          // Mettre à jour le lien d'accès à la tâche
+          const taskAccessBtn = document.getElementById('taskAccessBtn');
+          taskAccessBtn.href = taskData.url;
+          
+          // Configurer le bouton "Envoyer preuve"
+          const taskSendProofBtn = document.getElementById('taskSendProofBtn');
+          taskSendProofBtn.onclick = () => {
+            openProofModal(taskId, whatsapp);
+            bootstrap.Modal.getInstance(document.getElementById('taskDetailsModal')).hide();
+          };
+          
+          // Ouvrir la modal
+          new bootstrap.Modal(document.getElementById('taskDetailsModal')).show();
+        } else {
+          showNotification("Tâche introuvable", "danger");
+        }
+      } catch (error) {
+        showNotification("Erreur lors du chargement de la tâche: " + error.message, "danger");
+      }
+    };
 
     document.getElementById("submitProofForm").addEventListener("submit", async e => {
       e.preventDefault();
@@ -2199,6 +2390,18 @@
               case 'telegram': 
                 icon = '<i class="fab fa-telegram social-icon telegram"></i>';
                 typeText = 'Réseau social: Télégramme';
+                break;
+              case 'youtube': 
+                icon = '<i class="fab fa-youtube social-icon youtube"></i>';
+                typeText = 'Réseau social: YouTube';
+                break;
+              case 'tiktok': 
+                icon = '<i class="fab fa-tiktok social-icon tiktok"></i>';
+                typeText = 'Réseau social: TikTok';
+                break;
+              case 'linkedin': 
+                icon = '<i class="fab fa-linkedin social-icon linkedin"></i>';
+                typeText = 'Réseau social: LinkedIn';
                 break;
             }
           } else if (d.taskType === 'website') {
@@ -2401,6 +2604,31 @@
         console.error(`Error loading ${col}:`, error);
       }
     }
+
+    window.filterAdminTable = (tableId, searchId) => {
+      const searchTerm = document.getElementById(searchId).value.toLowerCase();
+      const table = document.getElementById(tableId);
+      const rows = table.getElementsByTagName('tr');
+      
+      for (let i = 0; i < rows.length; i++) {
+        const cells = rows[i].getElementsByTagName('td');
+        let found = false;
+        
+        for (let j = 0; j < cells.length; j++) {
+          const cellText = cells[j].textContent || cells[j].innerText;
+          if (cellText.toLowerCase().indexOf(searchTerm) > -1) {
+            found = true;
+            break;
+          }
+        }
+        
+        if (found) {
+          rows[i].style.display = '';
+        } else {
+          rows[i].style.display = 'none';
+        }
+      }
+    };
 
     // --- Section Historique ---
     async function loadHistory() {
