@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="mg">
 <head>
@@ -3567,8 +3568,6 @@
 </html>
 
 
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -3604,6 +3603,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
     }
     
     #chatIcon {
@@ -3623,11 +3623,19 @@
       box-shadow: var(--shadow);
       transition: all 0.3s ease;
       z-index: 1000;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.7); }
+      70% { box-shadow: 0 0 0 15px rgba(67, 97, 238, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0); }
     }
     
     #chatIcon:hover {
       transform: scale(1.05);
       box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+      animation: none;
     }
     
     #notificationBadge {
@@ -3645,6 +3653,12 @@
       font-size: 12px;
       font-weight: bold;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      animation: bounce 1s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
     
     #chatModal {
@@ -3662,7 +3676,13 @@
       z-index: 1001;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      animation: modalAppear 0.4s ease-out;
+    }
+    
+    @keyframes modalAppear {
+      from { opacity: 0; transform: translate(-50%, -40%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
     }
     
     .chat-header {
@@ -3692,11 +3712,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.2s;
+      transition: all 0.2s;
     }
     
     .close-btn:hover {
       background: rgba(255,255,255,0.2);
+      transform: rotate(90deg);
     }
     
     #chatMessages {
@@ -3707,6 +3728,9 @@
       display: flex;
       flex-direction: column;
       gap: 15px;
+      background-image: linear-gradient(rgba(245, 247, 251, 0.95), rgba(245, 247, 251, 0.95)), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none" stroke="%23e1e5eb" stroke-width="0.5"/></svg>');
+      background-size: 30px 30px;
     }
     
     .message {
@@ -3716,6 +3740,11 @@
       position: relative;
       animation: fadeIn 0.3s ease;
       box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+    }
+    
+    .message:hover {
+      transform: translateY(-2px);
     }
     
     .message-self {
@@ -3753,6 +3782,7 @@
       display: none;
       box-shadow: var(--shadow);
       overflow: hidden;
+      z-index: 10;
     }
     
     .message:hover .message-actions {
@@ -3836,6 +3866,7 @@
     
     #messageInput:focus {
       border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.1);
     }
     
     .input-actions {
@@ -3863,6 +3894,7 @@
     .action-icon:hover {
       background: var(--light-gray);
       color: var(--primary);
+      transform: scale(1.1);
     }
     
     .send-btn {
@@ -3895,6 +3927,7 @@
       box-shadow: var(--shadow);
       max-height: 200px;
       overflow-y: auto;
+      animation: fadeIn 0.3s ease;
     }
     
     .emoji-container {
@@ -3909,11 +3942,12 @@
       text-align: center;
       padding: 5px;
       border-radius: 8px;
-      transition: background 0.2s;
+      transition: all 0.2s;
     }
     
     .emoji:hover {
       background: var(--light-gray);
+      transform: scale(1.2);
     }
     
     .scroll-btn {
@@ -3932,6 +3966,7 @@
       border: none;
       z-index: 10;
       transition: all 0.2s;
+      opacity: 0.8;
     }
     
     #scrollTopBtn {
@@ -3946,6 +3981,7 @@
       background: var(--primary);
       color: white;
       transform: scale(1.1);
+      opacity: 1;
     }
     
     .reply-preview {
@@ -3955,6 +3991,12 @@
       border-radius: 8px;
       margin-bottom: 10px;
       display: none;
+      animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
     .reply-content {
@@ -3972,6 +4014,12 @@
       cursor: pointer;
       float: right;
       font-size: 16px;
+      transition: all 0.2s;
+    }
+    
+    .reply-close:hover {
+      color: var(--primary);
+      transform: rotate(90deg);
     }
     
     .copy-notification {
@@ -3987,6 +4035,24 @@
       z-index: 2000;
       display: none;
       box-shadow: var(--shadow);
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: var(--gray);
+      gap: 5px;
+      margin-top: 5px;
+    }
+    
+    .online-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #2ecc71;
+      border-radius: 50%;
+      display: inline-block;
     }
     
     @keyframes fadeIn {
@@ -4022,6 +4088,9 @@
 <div id="chatModal">
   <div class="chat-header">
     <h2>Discussion de groupe</h2>
+    <div class="status-indicator">
+      <span class="online-dot"></span> En ligne
+    </div>
     <button class="close-btn" id="closeChat">
       <i class="fas fa-times"></i>
     </button>
@@ -4133,6 +4202,11 @@
   const emojis = ["😀", "😂", "😍", "🤩", "😎", "👍", "👏", "❤️", "🔥", "🎉", 
                  "💯", "✨", "🙌", "🤝", "👀", "💪", "🤔", "🙏", "👌", "💖",
                  "😊", "🥰", "🤗", "🤭", "😏", "😌", "😉", "😋", "😜", "🤪"];
+  
+  // Créer un son de notification
+  const notificationSound = new Audio();
+  notificationSound.src = "data:audio/mp3;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMYXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV";
+  notificationSound.volume = 0.4;
 
   // Charger les emojis dans le sélecteur
   emojis.forEach(emoji => {
@@ -4409,6 +4483,7 @@
       const data = doc.data();
       const msgTime = data.timestamp?.toMillis() || 0;
 
+      // Vérifier si le message est nouveau et que le chat n'est pas ouvert
       if (msgTime > lastSeen && !modalOpen) {
         hasNew = true;
       }
@@ -4420,8 +4495,14 @@
 
     if (hasNew) {
       notificationBadge.style.display = "flex";
-      const sound = new Audio("https://notificationsounds.com/storage/sounds/file-sounds-1153-pristine.mp3");
-      sound.play().catch(e => console.log("Audio play failed:", e));
+      
+      // Jouer le son de notification
+      try {
+        notificationSound.currentTime = 0;
+        notificationSound.play();
+      } catch (e) {
+        console.log("Erreur de lecture du son de notification:", e);
+      }
     }
   });
 
@@ -4434,7 +4515,6 @@
 
   // Fermer le chat en cliquant à l'extérieur
   document.addEventListener("click", (e) => {
-    // CORRECTION : Vérifier que le clic n'est pas sur l'icône de chat
     if (modalOpen && !chatModal.contains(e.target) && e.target !== chatIcon && !chatIcon.contains(e.target)) {
       closeChatModal();
     }
@@ -4444,4 +4524,22 @@
 </body>
 </html>
 
-              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+  
+
+
