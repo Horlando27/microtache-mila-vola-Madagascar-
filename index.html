@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <html lang="mg">
 <head>
@@ -1155,6 +1154,46 @@
       border: 1px solid #ffd54f;
     }
     
+    /* Nouveaux styles pour la section des participants */
+    .participants-section {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--gray-300);
+    }
+    
+    .participants-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin-top: 0.5rem;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      border: 1px solid var(--gray-200);
+    }
+    
+    .participants-table th {
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 0.75rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .participants-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--gray-200);
+      font-size: 0.9rem;
+    }
+    
+    .participants-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .participants-table tr:nth-child(even) {
+      background-color: var(--gray-100);
+    }
+    
     @media (max-width: 768px) {
       .section-card {
         padding: 1.5rem;
@@ -1178,7 +1217,7 @@
         font-size: 1.6rem;
       }
       
-      .admin-table, .history-table, .tasks-table, .referrals-table {
+      .admin-table, .history-table, .tasks-table, .referrals-table, .participants-table {
         display: block;
         overflow-x: auto;
       }
@@ -1259,6 +1298,23 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 15px rgba(67, 97, 238, 0.3);
     }
+    
+    /* Mot de passe oublié */
+    .forgot-password {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+    
+    .forgot-password a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .forgot-password a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -1300,6 +1356,9 @@
             <button type="submit" class="btn btn-primary w-100">
               <i class="fas fa-sign-in-alt me-1"></i> Hiditra
             </button>
+            <div class="forgot-password mt-3">
+              <a href="#" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">Mot de passe oublié ?</a>
+            </div>
           </form>
         </div>
         
@@ -1822,7 +1881,7 @@
                 <label class="form-label">Méthode de Paiement</label>
                 <select id="depositMethod" class="form-select" required>
                   <option value="">Sélectionnez une méthode</option>
-                  <option value="PAYEER">MVOLA</>option>
+                  <option value="PAYEER">MVOLA</option>
                   <option value="Orange Money">En attente</option>
                   <option value="Airtel Money">En attente</option>
                 </select>
@@ -1996,6 +2055,31 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      
+      <!-- Reset Password Modal -->
+      <div class="modal fade" id="resetPasswordModal" tabindex="-1">
+        <div class="modal-dialog">
+          <form id="resetPasswordForm" class="modal-content">
+            <div class="modal-header card-header-gradient">
+              <h5 class="modal-title"><i class="fas fa-key me-2"></i>Réinitialiser le mot de passe</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="resetEmail" class="form-label">Adresse email</label>
+                <input type="email" class="form-control" id="resetEmail" required>
+              </div>
+              <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>Un lien de réinitialisation sera envoyé à cette adresse email.
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+              <button type="submit" class="btn btn-primary">Envoyer</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -2775,7 +2859,7 @@
         }
         
         list.innerHTML = '';
-        snap.forEach(docSnap => {
+        for (const docSnap of snap.docs) {
           const d = docSnap.data();
           const taskId = docSnap.id;
           const el = document.createElement('div');
@@ -2831,6 +2915,22 @@
             typeText = 'Inscription site web';
           }
           
+          // Récupérer les soumissions pour cette tâche
+          const submissionsQuery = query(collection(db, "submissions"), 
+            where("taskId", "==", taskId),
+            where("status", "==", "en attente"));
+          const submissionsSnap = await getDocs(submissionsQuery);
+          const submissions = [];
+          
+          submissionsSnap.forEach(subDoc => {
+            const subData = subDoc.data();
+            submissions.push({
+              id: subDoc.id,
+              name: subData.name,
+              proof: subData.proof
+            });
+          });
+          
           el.innerHTML = `
             <div class="card task-card">
               <div class="card-body">
@@ -2863,11 +2963,50 @@
                     : ''
                   }
                 </div>
+                
+                <!-- Section des participants -->
+                <div class="participants-section">
+                  <h6>Participants en attente</h6>
+                  <div class="table-responsive">
+                    <table class="participants-table">
+                      <thead>
+                        <tr>
+                          <th>Nom</th>
+                          <th>ID</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="participants-${taskId}">
+                        ${submissions.length === 0 ? 
+                          `<tr>
+                            <td colspan="3" class="text-center py-2">
+                              Aucun participant en attente
+                            </td>
+                          </tr>` 
+                          : submissions.map(sub => `
+                            <tr>
+                              <td>${sub.name}</td>
+                              <td>${sub.id.substring(0, 8)}...</td>
+                              <td>
+                                <button class="btn btn-success btn-sm me-1" onclick="confirmSubmission('${sub.id}')">
+                                  <i class="fas fa-check"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="cancelSubmission('${sub.id}')">
+                                  <i class="fas fa-times"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          `).join('')
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           `;
           list.appendChild(el);
-        });
+        }
         
         // Préremplir le champ WhatsApp
         if (userWhatsApp) {
@@ -3052,7 +3191,7 @@
       }
     };
 
-    // --- Section Historique ---
+    // --- Nouvelle section Historique ---
     async function loadHistory() {
       try {
         // Charger l'historique des dépôts
@@ -3309,6 +3448,37 @@
         loadPublications();
       } catch (error) {
         showNotification("Erreur lors de la réactivation: " + error.message, "danger");
+      }
+    };
+
+    // Fonction pour confirmer une soumission depuis "Mes publications"
+    window.confirmSubmission = async (submissionId) => {
+      try {
+        const submissionRef = doc(db, "submissions", submissionId);
+        const submissionSnap = await getDoc(submissionRef);
+        
+        if (!submissionSnap.exists()) {
+          showNotification("Soumission introuvable", "danger");
+          return;
+        }
+        
+        const submissionData = submissionSnap.data();
+        await confirmAction('submissions', submissionId, 'proof', submissionData);
+        showNotification("Soumission confirmée avec succès!", "success");
+        loadPublications();
+      } catch (error) {
+        showNotification("Erreur lors de la confirmation: " + error.message, "danger");
+      }
+    };
+
+    // Fonction pour annuler une soumission depuis "Mes publications"
+    window.cancelSubmission = async (submissionId) => {
+      try {
+        await cancelAction('submissions', submissionId);
+        showNotification("Soumission annulée", "info");
+        loadPublications();
+      } catch (error) {
+        showNotification("Erreur lors de l'annulation: " + error.message, "danger");
       }
     };
 
